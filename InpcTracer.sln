@@ -7,6 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InpcTracer", "InpcTracer\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InpcTracer.Tests", "InpcTracer.Tests\InpcTracer.Tests.csproj", "{9238F80E-EDC8-4059-B615-873196D6A1A0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1999FBA-E1E5-4A74-B6E9-84A4B2C00D99}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InpcTracer.Nuget.Tests", "InpcTracer.Nuget.Tests\InpcTracer.Nuget.Tests.csproj", "{3F374E6C-C9CA-49E4-850D-F8A344A372D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +30,10 @@ Global
 		{9238F80E-EDC8-4059-B615-873196D6A1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9238F80E-EDC8-4059-B615-873196D6A1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9238F80E-EDC8-4059-B615-873196D6A1A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F374E6C-C9CA-49E4-850D-F8A344A372D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F374E6C-C9CA-49E4-850D-F8A344A372D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F374E6C-C9CA-49E4-850D-F8A344A372D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F374E6C-C9CA-49E4-850D-F8A344A372D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
