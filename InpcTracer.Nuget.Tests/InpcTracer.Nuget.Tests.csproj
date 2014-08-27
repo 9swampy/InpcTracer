@@ -40,6 +40,10 @@
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.24.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
+    <Reference Include="InpcTracer, Version=0.0.1.42316, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\InpcTracer.0.0.1.42316\lib\net45\InpcTracer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -60,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="License.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
