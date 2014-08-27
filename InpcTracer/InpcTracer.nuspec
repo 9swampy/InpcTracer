@@ -6,7 +6,7 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://github.com/9swampy/InpcTracer/blob/Master/Licence.txt</licenseUrl>
+    <licenseUrl>https://github.com/9swampy/InpcTracer/blob/Master/InpcTracer/License.txt</licenseUrl>
     <projectUrl>https://github.com/9swampy/InpcTracer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A fluent interface for unit testing INotifyPropertyChanged events</description>
