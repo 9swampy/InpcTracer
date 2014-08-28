@@ -1,7 +1,8 @@
 <h1>InpcTracer</h1>
 ==========
 
-<b>Inspired by https://gist.github.com/Seikilos/6224204</b>
+<b>Inspired by https://gist.github.com/Seikilos/6224204</b><br>
+<b>Published at https://www.nuget.org/packages/InpcTracer/</b>
 <p>
 I needed to clean up testing INotifyPropertyChanged implementation of an application I'm working on. Seikilos' Gist 
 inspired me, kudos. I use FakeItEasy and have altered the usage quite a bit to be more akin to it's way of working.
