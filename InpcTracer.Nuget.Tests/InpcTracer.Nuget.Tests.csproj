@@ -40,9 +40,9 @@
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.24.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
-    <Reference Include="InpcTracer, Version=0.0.1.42316, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="InpcTracer, Version=0.0.2.40577, Culture=neutral, PublicKeyToken=62d1967bc777219c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\InpcTracer.0.0.1.42316\lib\net45\InpcTracer.dll</HintPath>
+      <HintPath>..\packages\InpcTracer.0.0.2.40577\lib\net45\InpcTracer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

@@ -26,7 +26,7 @@
       var tracer = new InpcTracer.InpcTracer<ITraceable>(target);
 
       // Check for one event
-      Assert.IsTrue(tracer.WhileProcessing(() => target.Active = true).HasRecordedEvent(() => target.Active).ExactlyOnce());
+      Assert.IsTrue(tracer.WhileProcessing(() => target.Active = true).RecordedEvent(() => target.Active).ExactlyOnce());
 
       // Check for exact order of two events
       tracer.WhileProcessing(() =>
