@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A fluent interface for unit testing INotifyPropertyChanged events</description>
     <releaseNotes>Beta release.</releaseNotes>
-    <copyright>MIT</copyright>
+    <copyright>9swampy, InpcTracer contributors</copyright>
     <tags>INPC INotifyPropertyChanged fluent unit testing</tags>
   </metadata>
 </package>
