@@ -12,7 +12,8 @@ namespace InpcTracer.Tests
       var tracer = new InpcTracer.InpcTracer<Project>(p);
 
       // Check for one event
-      Assert.IsTrue(tracer.WhileProcessing(() => p.Active = true).HasRecordedEvent(() => p.Active).ExactlyOnce());
+      //Assert.IsTrue(tracer.WhileProcessing(() => p.Active = true).HasRecordedEvent(() => p.Active).MustHaveHappened(InpcTracer.Configuration.Repeated.Exactly.Once));
+      tracer.WhileProcessing(() => p.Active = true).RecordedEvent(() => p.Active).MustHaveHappened(InpcTracer.Configuration.Repeated.Exactly.Once);
 
       // Check for exact order of two events
       tracer.WhileProcessing(() => p.Path = "test").FirstRecordedEvent(() => p.Path).ThenRecordedEvent(() => p.Active);
