@@ -4,6 +4,7 @@
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using FakeItEasy;
   using System.ComponentModel;
+  using Repeated = InpcTracer.Configuration.Repeated;
 
   [TestClass]
   public class Sample
@@ -27,6 +28,8 @@
 
       // Check for one event
       Assert.IsTrue(tracer.WhileProcessing(() => target.Active = true).RecordedEvent(() => target.Active).ExactlyOnce());
+      // or
+      tracer.WhileProcessing(() => target.Active = true).RecordedEvent(() => target.Active).MustHaveHappened(Repeated.Exactly.Once);
 
       // Check for exact order of two events
       tracer.WhileProcessing(() =>
