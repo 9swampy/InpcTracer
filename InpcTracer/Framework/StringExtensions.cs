@@ -1,5 +1,6 @@
 namespace InpcTracer.Framework
 {
+  using System;
   using System.Globalization;
 
   /// <summary>

@@ -3,6 +3,9 @@ namespace InpcTracer.Tracing
   using System;
   using System.Linq.Expressions;
 
+  /// <summary>
+  /// Validation of expression functions.
+  /// </summary>
   public class ExpressionValidator : IExpressionValidator
   {
     /// <summary>

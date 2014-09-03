@@ -94,14 +94,14 @@
     public void WhenPropertyChangedThenHasNotRecordedEventShouldThrow()
     {
       target.PropertyA = true;
-      Should.Throw<ArgumentException>(() => tracer.HasNotRecordedEvent(() => target.PropertyA));
+      Should.Throw<ExpectationException>(() => tracer.RecordedEvent(() => target.PropertyA).MustHaveHappened(Repeated.Never));
     }
 
     [TestMethod]
     public void WhenPropertyChangedThenHasNotRecordedEventShouldValidate()
     {
       target.PropertyA = true;
-      Should.Throw<ArgumentException>(() => tracer.HasNotRecordedEvent(() => target.PropertyA));
+      Should.Throw<ExpectationException>(() => tracer.RecordedEvent(() => target.PropertyA).MustHaveHappened(Repeated.Never));
     }
   }
 }

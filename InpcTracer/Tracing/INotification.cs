@@ -2,6 +2,9 @@
 {
   using System;
 
+  /// <summary>
+  /// Representation of a recorded notification.
+  /// </summary>
   public interface INotification
   {
     /// <summary>

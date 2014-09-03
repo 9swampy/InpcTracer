@@ -9,7 +9,7 @@
     /// <summary>
     /// Asserts that the configured notification has happened at least once.
     /// </summary>
-    /// <exception cref="ExpectationException">The notification has not been called.</exception>
+    /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called.</exception>
     void MustHaveHappened();
     
     /// <summary>
@@ -18,12 +18,20 @@
     /// </summary>
     /// <param name="repeatConstraint">A constraint for how many times the notification
     /// must have happened.</param>
-    /// <exception cref="ExpectationException">The notification has not been called a number of times
+    /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called a number of times
     /// that passes the repeat constraint.</exception>
     void MustHaveHappened(Repeated repeatConstraint);
 
+    /// <summary>
+    /// Whether the notification has occurred exactly once.
+    /// </summary>
+    /// <returns>True if has occurred exactly once, otherwise false.</returns>
     bool ExactlyOnce();
 
+    /// <summary>
+    /// Whether the notification has occurred at least once.
+    /// </summary>
+    /// <returns>True if has occurred at least once, otherwise false.</returns>
     bool AtLeastOnce();
   }
 }

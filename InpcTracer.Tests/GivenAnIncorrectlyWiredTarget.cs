@@ -6,6 +6,7 @@
   using Shouldly;
   using System;
   using System.ComponentModel;
+  using Repeated = InpcTracer.Configuration.Repeated;
 
   [TestClass]
   public class GivenAnIncorrectlyWiredTarget
@@ -77,7 +78,7 @@
     public void WhenIncorrectlyWiredPropertyChangedThenHasNotRecordedEventShouldNotThrow()
     {
       target.PropertyB = true;
-      Should.NotThrow(() => tracer.HasNotRecordedEvent(() => target.PropertyB));
+      Should.NotThrow(() => tracer.RecordedEvent(() => target.PropertyB).MustHaveHappened(Repeated.Never));
       Should.NotThrow(() => tracer.RecordedEvent(() => target.PropertyB).MustHaveHappened(InpcTracer.Configuration.Repeated.Never));
       tracer.RecordedEvent(() => target.PropertyB).AtLeastOnce().ShouldBe(false);
     }

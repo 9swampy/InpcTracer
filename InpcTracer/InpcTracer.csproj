@@ -32,6 +32,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\InpcTracer.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -51,6 +53,9 @@
     <Compile Include="Output\RecordedNotificationAsserter.cs" />
     <Compile Include="Framework\ExpectationException.cs" />
     <Compile Include="Output\OutputWriterExtensions.cs" />
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Tracing\Notification.cs" />
     <Compile Include="Output\StringBuilderOutputWriter.cs" />
     <Compile Include="Output\DefaultOutputWriter.cs" />
@@ -68,7 +73,6 @@
     <Compile Include="Tracing\IExpressionValidator.cs" />
     <Compile Include="InpcTracer.cs" />
     <Compile Include="Configuration\IOrderedAssertConfiguration.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tracing\NotificationComparer.cs" />
     <Compile Include="Output\NotificationFormatter.cs" />
   </ItemGroup>

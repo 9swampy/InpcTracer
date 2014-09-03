@@ -5,11 +5,19 @@ namespace InpcTracer.Configuration
   using InpcTracer.Output;
   using InpcTracer.Tracing;
 
+  /// <summary>
+  /// Allows the developer to assert on a notification that's configured.
+  /// </summary>
   public class AssertConfiguration : IAssertConfiguration
   {
     private readonly IList<INotification> recordedNotifications;
     private readonly MemberExpression memberExpression;
 
+    /// <summary>
+    /// Configures an assert for the specified member.
+    /// </summary>
+    /// <param name="recordedNotifications">Collection of notifications recorded.</param>
+    /// <param name="memberExpression">The MemberExpression that produces the relevant property.</param>
     public AssertConfiguration(IList<INotification> recordedNotifications, MemberExpression memberExpression)
     {
       this.recordedNotifications = recordedNotifications;
@@ -19,7 +27,7 @@ namespace InpcTracer.Configuration
     /// <summary>
     /// Whether the notification has occurred exactly once.
     /// </summary>
-    /// <returns>True if has occurred exactly once, other false.</returns>
+    /// <returns>True if has occurred exactly once, otherwise false.</returns>
     public bool ExactlyOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
@@ -29,7 +37,7 @@ namespace InpcTracer.Configuration
     /// <summary>
     /// Whether the notification has occurred at least once.
     /// </summary>
-    /// <returns>True if has occurred at least once, other false.</returns>
+    /// <returns>True if has occurred at least once, otherwise false.</returns>
     public bool AtLeastOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
@@ -39,7 +47,7 @@ namespace InpcTracer.Configuration
     /// <summary>
     /// Asserts whether the notification has occurred at least once.
     /// </summary>
-    /// <exception cref="ExpectationException">The notification has not been called even once.</exception>
+    /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called even once.</exception>
     public void MustHaveHappened()
     {
       this.MustHaveHappened(Repeated.AtLeast.Once);
@@ -51,7 +59,7 @@ namespace InpcTracer.Configuration
     /// </summary>
     /// <param name="repeatConstraint">A constraint for how many times the notification
     /// must have happened.</param>
-    /// <exception cref="ExpectationException">The notification has not been called a number of times
+    /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called a number of times
     /// that passes the repeat constraint.</exception>
     public void MustHaveHappened(Repeated repeatConstraint)
     {

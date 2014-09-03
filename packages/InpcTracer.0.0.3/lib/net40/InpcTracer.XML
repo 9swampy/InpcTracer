@@ -1,0 +1,476 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InpcTracer</name>
+    </assembly>
+    <members>
+        <member name="T:InpcTracer.Configuration.AssertConfiguration">
+            <summary>
+            Allows the developer to assert on a notification that's configured.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Configuration.IAssertConfiguration">
+            <summary>
+            Allows the developer to assert on a notification that's configured.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Configuration.IHideObjectMembers">
+            <summary>
+            Hides standard Object members to make fluent interfaces
+            easier to read. Found in the source of Autofac: <see cref="!:http://code.google.com/p/autofac/"/>
+            Based on blog post here:
+            <see cref="!:http://www.clariusconsulting.net/blogs/kzu/archive/2008/03/10/58301.aspx"/>
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Configuration.IHideObjectMembers.ToString">
+            <summary>
+            Hides the ToString-method.
+            </summary>
+            <returns>A string representation of the implementing object.</returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.IHideObjectMembers.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="o">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+            <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.IHideObjectMembers.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.IHideObjectMembers.GetType">
+            <summary>
+            Gets the type.
+            </summary>
+            <returns>The exact runtime type of the current instance.</returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.IAssertConfiguration.MustHaveHappened">
+            <summary>
+            Asserts that the configured notification has happened at least once.
+            </summary>
+            <exception cref="T:InpcTracer.Framework.ExpectationException">The notification has not been called.</exception>
+        </member>
+        <member name="M:InpcTracer.Configuration.IAssertConfiguration.MustHaveHappened(InpcTracer.Configuration.Repeated)">
+            <summary>
+            Asserts that the configured notification has happened the number of times
+            constrained by the repeatConstraint parameter.
+            </summary>
+            <param name="repeatConstraint">A constraint for how many times the notification
+            must have happened.</param>
+            <exception cref="T:InpcTracer.Framework.ExpectationException">The notification has not been called a number of times
+            that passes the repeat constraint.</exception>
+        </member>
+        <member name="M:InpcTracer.Configuration.IAssertConfiguration.ExactlyOnce">
+            <summary>
+            Whether the notification has occurred exactly once.
+            </summary>
+            <returns>True if has occurred exactly once, otherwise false.</returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.IAssertConfiguration.AtLeastOnce">
+            <summary>
+            Whether the notification has occurred at least once.
+            </summary>
+            <returns>True if has occurred at least once, otherwise false.</returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.AssertConfiguration.#ctor(System.Collections.Generic.IList{InpcTracer.Tracing.INotification},System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Configures an assert for the specified member.
+            </summary>
+            <param name="recordedNotifications">Collection of notifications recorded.</param>
+            <param name="memberExpression">The MemberExpression that produces the relevant property.</param>
+        </member>
+        <member name="M:InpcTracer.Configuration.AssertConfiguration.ExactlyOnce">
+            <summary>
+            Whether the notification has occurred exactly once.
+            </summary>
+            <returns>True if has occurred exactly once, otherwise false.</returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.AssertConfiguration.AtLeastOnce">
+            <summary>
+            Whether the notification has occurred at least once.
+            </summary>
+            <returns>True if has occurred at least once, otherwise false.</returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.AssertConfiguration.MustHaveHappened">
+            <summary>
+            Asserts whether the notification has occurred at least once.
+            </summary>
+            <exception cref="T:InpcTracer.Framework.ExpectationException">The notification has not been called even once.</exception>
+        </member>
+        <member name="M:InpcTracer.Configuration.AssertConfiguration.MustHaveHappened(InpcTracer.Configuration.Repeated)">
+            <summary>
+            Asserts that the configured notification has happened the number of times
+            constrained by the repeatConstraint parameter.
+            </summary>
+            <param name="repeatConstraint">A constraint for how many times the notification
+            must have happened.</param>
+            <exception cref="T:InpcTracer.Framework.ExpectationException">The notification has not been called a number of times
+            that passes the repeat constraint.</exception>
+        </member>
+        <member name="T:InpcTracer.Configuration.IOrderedAssertConfiguration">
+            <summary>
+            Allows the developer to assert on an ordered chain of notifications configured.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Configuration.IOrderedAssertConfiguration.ThenRecordedEvent``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Assert that the next notification in the chain matches the specified property.
+            </summary>
+            <typeparam name="TResult">Type of the relevant property</typeparam>
+            <param name="expression">A function that produces the relevant property</param>
+            <returns>The next IOrderedAssertConfiguration in the notification chain</returns>
+        </member>
+        <member name="T:InpcTracer.Configuration.IRepeatSpecification">
+            <summary>
+            Provides properties and methods to specify repeat.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Configuration.IRepeatSpecification.Times(System.Int32)">
+            <summary>
+            Specifies the number of times as repeat.
+            </summary>
+            <param name="numberOfTimes">The number of times expected.</param>
+            <returns>A Repeated instance.</returns>
+        </member>
+        <member name="P:InpcTracer.Configuration.IRepeatSpecification.Once">
+            <summary>
+            Specifies once as the repeat.
+            </summary>
+        </member>
+        <member name="P:InpcTracer.Configuration.IRepeatSpecification.Twice">
+            <summary>
+            Specifies twice as the repeat.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Configuration.OrderedAssertConfiguration">
+            <summary>
+            Allows the developer to assert on an ordered chain of notifications configured.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Configuration.OrderedAssertConfiguration.#ctor(System.Collections.Generic.IList{InpcTracer.Tracing.INotification},System.Linq.Expressions.MemberExpression,System.Int32,InpcTracer.Tracing.IExpressionValidator)">
+            <summary>
+            
+            </summary>
+            <param name="recordedNotifications">Collection of notifications recorded.</param>
+            <param name="memberExpression">The MemberExpression that produces the relevant property.</param>
+            <param name="index"></param>
+            <param name="expressionValidator"></param>
+        </member>
+        <member name="M:InpcTracer.Configuration.OrderedAssertConfiguration.ThenRecordedEvent``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Assert that the next notification in the chain matches the specified property.
+            </summary>
+            <typeparam name="TResult">Type of the relevant property</typeparam>
+            <param name="expression">A function that produces the relevant property</param>
+            <returns>The next IOrderedAssertConfiguration in the notification chain</returns>
+        </member>
+        <member name="T:InpcTracer.Configuration.Repeated">
+            <summary>
+            Provides syntax for specifying the number of times a notification must have been repeated when asserting on 
+            notifications.
+            </summary>
+            <example><code>A.CallTo(() => foo.Bar()).Assert(Happened.Once.Exactly);</code></example>
+        </member>
+        <member name="M:InpcTracer.Configuration.Repeated.Like(System.Linq.Expressions.Expression{System.Func{System.Int32,System.Boolean}})">
+            <summary>
+            Specifies that a notification must have been repeated a number of times
+            that is validated by the specified repeatValidation argument.
+            </summary>
+            <param name="repeatValidation">A predicate that specifies the number of times
+            a notification must have been made.</param>
+            <returns>A Repeated-instance.</returns>
+        </member>
+        <member name="M:InpcTracer.Configuration.Repeated.Matches(System.Int32)">
+            <summary>
+            When implemented gets a value indicating if the repeat is matched
+            by the Happened-instance.
+            </summary>
+            <param name="repeat">The repeat of a notification.</param>
+            <returns>True if the repeat is a match.</returns>
+        </member>
+        <member name="P:InpcTracer.Configuration.Repeated.Never">
+            <summary>
+            Asserts that a notification has not happened at all.
+            </summary>
+        </member>
+        <member name="P:InpcTracer.Configuration.Repeated.Exactly">
+            <summary>
+            The notification must have happened exactly the number of times that is specified in the next step.
+            </summary>
+        </member>
+        <member name="P:InpcTracer.Configuration.Repeated.AtLeast">
+            <summary>
+            The notification must have happened any number of times greater than or equal to the number of times that is specified
+            in the next step.
+            </summary>
+        </member>
+        <member name="P:InpcTracer.Configuration.Repeated.NoMoreThan">
+            <summary>
+            The notification must have happened any number of times less than or equal to the number of times that is specified
+            in the next step.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Framework.ExpectationException">
+            <summary>
+            An exception thrown when an expectation is not met (when asserting on notifications).
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Framework.ExpectationException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:InpcTracer.Framework.ExpectationException"/> class.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Framework.ExpectationException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:InpcTracer.Framework.ExpectationException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:InpcTracer.Framework.ExpectationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:InpcTracer.Framework.ExpectationException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:InpcTracer.Framework.ExpectationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:InpcTracer.Framework.ExpectationException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">
+            The <paramref name="info"/> parameter is null.
+            </exception>
+            <exception cref="T:System.Runtime.Serialization.SerializationException">
+            The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0).
+            </exception>
+        </member>
+        <member name="T:InpcTracer.Framework.Guard">
+            <summary>
+            Provides methods for guarding method arguments.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Framework.Guard.AgainstNull(System.Object,System.String)">
+            <summary>
+            Throws an exception if the specified argument is null.
+            </summary>
+            <param name="argument">The argument.</param>
+            <param name="argumentName">Name of the argument.</param>
+            <exception cref="T:System.ArgumentNullException">The specified argument was null.</exception>
+        </member>
+        <member name="T:InpcTracer.Framework.Guard.ValidatedNotNullAttribute">
+            <summary>
+            When applied to a parameter, this attribute provides an indication to code analysis that the argument has been null checked.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Framework.StringExtensions">
+            <summary>
+            Provides extension methods for <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Framework.StringExtensions.FormatInvariant(System.String,System.Object[])">
+            <summary>
+            Replaces the format item in a specified System.String with the text equivalent
+            of the value of a corresponding System.Object instance in a specified array using
+            invariant culture as <see cref="T:System.IFormatProvider"/>.
+            </summary>
+            <param name="format">A composite format string.</param>
+            <param name="arguments">An <see cref="T:System.Object"/> array containing zero or more objects to format.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="T:InpcTracer.InpcTracer`1">
+            <summary>
+            Wrapper the facilitates trace recording of INotifyPropertyChanged events.
+            </summary>
+            <typeparam name="TNotifyPropertyChanged">Type wrapped.</typeparam>
+        </member>
+        <member name="M:InpcTracer.InpcTracer`1.#ctor(`0)">
+            <summary>
+            Creates a wrapper around the specified notifier.
+            </summary>
+            <param name="notifier"></param>
+        </member>
+        <member name="M:InpcTracer.InpcTracer`1.#ctor(`0,InpcTracer.Tracing.IExpressionValidator)">
+            <summary>
+            Creates a wrapper around the specified notifier.
+            </summary>
+            <param name="notifier"></param>
+            <param name="expressionValidator"></param>
+        </member>
+        <member name="M:InpcTracer.InpcTracer`1.Finalize">
+            <summary>
+            Destructor to clean up references held by the instance.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.InpcTracer`1.WhileProcessing(System.Action)">
+            <summary>
+            Records notifications after clearing any pre-existing notifications.
+            </summary>
+            <param name="action">Action to process.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InpcTracer.InpcTracer`1.RecordedEvent``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Generate a configuration to assert if the specified property has been notified. 
+            </summary>
+            <typeparam name="TResult">Type of the relevant property.</typeparam>
+            <param name="expression">A function that produces the relevant property.</param>
+            <returns>A configuration element to determine the assertion.</returns>
+        </member>
+        <member name="M:InpcTracer.InpcTracer`1.FirstRecordedEvent``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Assert that the first notification in the chain matches the specified property.
+            </summary>
+            <typeparam name="TResult">Type of the relevant property.</typeparam>
+            <param name="expression">A function that produces the relevant property.</param>
+            <returns>The next IOrderedAssertConfiguration in the notification chain.</returns>
+        </member>
+        <member name="T:InpcTracer.Output.IOutputWriter">
+            <summary>
+            Represents a text writer that writes to the output.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Output.IOutputWriter.Write(System.String)">
+            <summary>
+            Writes the specified value to the output.
+            </summary>
+            <param name="value">The value to write.</param>
+            <returns>The writer for method chaining.</returns>
+        </member>
+        <member name="M:InpcTracer.Output.IOutputWriter.Indent">
+            <summary>
+            Indents the writer.
+            </summary>
+            <returns>A disposable that will unindent the writer when disposed.</returns>
+        </member>
+        <member name="T:InpcTracer.Output.INotificationFormatter">
+            <summary>
+            Provides string formatting for notifications.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Output.INotificationFormatter.GetDescription(InpcTracer.Tracing.INotification)">
+            <summary>
+            Gets a human readable description of the specified notification.
+            </summary>
+            <param name="notification">The notification to get a description for.</param>
+            <returns>A description of the notification.</returns>
+        </member>
+        <member name="T:InpcTracer.Output.NotificationFormatter">
+            <summary>
+            Provides string formatting for notifications.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Output.NotificationFormatter.GetDescription(InpcTracer.Tracing.INotification)">
+            <summary>
+            Gets a human readable description of the specified notification.
+            </summary>
+            <param name="notification">The notification to get a description for.</param>
+            <returns>A description of the notification.</returns>
+        </member>
+        <member name="T:InpcTracer.Output.OutputWriterExtensions">
+            <summary>
+            Provides extensions for <see cref="T:InpcTracer.Output.IOutputWriter"/>.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Output.OutputWriterExtensions.WriteLine(InpcTracer.Output.IOutputWriter)">
+            <summary>
+            Writes a new line to the writer.
+            </summary>
+            <param name="writer">The writer to write to.</param>
+            <returns>The writer.</returns>
+        </member>
+        <member name="M:InpcTracer.Output.OutputWriterExtensions.Write(InpcTracer.Output.IOutputWriter,System.String,System.Object[])">
+            <summary>
+            Writes the format string to the writer.
+            </summary>
+            <param name="writer">The writer to write to.</param>
+            <param name="format">The format string to write.</param>
+            <param name="args">Replacements for the format string.</param>
+            <returns>The writer.</returns>
+        </member>
+        <member name="M:InpcTracer.Output.OutputWriterExtensions.Write(InpcTracer.Output.IOutputWriter,System.Object)">
+            <summary>
+            Writes the specified object to the writer (using the ToString-method of the object).
+            </summary>
+            <param name="writer">The writer to write to.</param>
+            <param name="value">The value to write to the writer.</param>
+            <returns>The writer.</returns>
+        </member>
+        <member name="T:InpcTracer.Tracing.ExpressionValidator">
+            <summary>
+            Validation of expression functions.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Tracing.IExpressionValidator">
+            <summary>
+            Validation of expression functions.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Tracing.IExpressionValidator.ValidateAsMember``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Validate the expression as a Member.
+            </summary>
+            <typeparam name="T">The type of member property.</typeparam>
+            <param name="expression">An expression accessing the relevant property.</param>
+            <returns>MemberExpression defining the property.</returns>
+            <exception cref="T:System.ArgumentNullException">The specified argument was null.</exception>
+            <exception cref="T:System.ArgumentException">The specified argument must be a property.</exception>
+        </member>
+        <member name="M:InpcTracer.Tracing.ExpressionValidator.ValidateAsMember``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Validate the expression as a Member.
+            </summary>
+            <typeparam name="T">The type of member property.</typeparam>
+            <param name="expression">An expression accessing the relevant property.</param>
+            <returns>MemberExpression defining the property.</returns>
+            <exception cref="T:System.ArgumentNullException">The specified argument was null.</exception>
+            <exception cref="T:System.ArgumentException">The specified argument must be a property.</exception>
+        </member>
+        <member name="T:InpcTracer.Tracing.INotification">
+            <summary>
+            Representation of a recorded notification.
+            </summary>
+        </member>
+        <member name="P:InpcTracer.Tracing.INotification.PropertyName">
+            <summary>
+            Gets the name of the property changed.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Tracing.Notification">
+            <summary>
+            Representation of a recorded notification.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Tracing.Notification.#ctor(System.String)">
+            <summary>
+            Create a representation of a recorded notification.
+            </summary>
+        </member>
+        <member name="P:InpcTracer.Tracing.Notification.PropertyName">
+            <summary>
+            Gets the name of the property changed.
+            </summary>
+        </member>
+        <member name="T:InpcTracer.Tracing.NotificationComparer">
+            <summary>
+            Comparison of notifications.
+            </summary>
+        </member>
+        <member name="M:InpcTracer.Tracing.NotificationComparer.Equals(InpcTracer.Tracing.INotification,InpcTracer.Tracing.INotification)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

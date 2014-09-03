@@ -1,1 +1,3 @@
-InpcTracer>nuget pack InpcTracer.csproj -Prop Configuration=Release
+cd D:\VisualStudio\GitHub\InpcTracer
+d:
+nuget pack InpcTracer.nuspec

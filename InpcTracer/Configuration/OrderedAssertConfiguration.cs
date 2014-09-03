@@ -5,6 +5,9 @@ namespace InpcTracer.Configuration
   using System.Linq.Expressions;
   using InpcTracer.Tracing;
 
+  /// <summary>
+  /// Allows the developer to assert on an ordered chain of notifications configured.
+  /// </summary>
   public class OrderedAssertConfiguration : AssertConfiguration, IOrderedAssertConfiguration
   {
     private readonly IList<INotification> recordedNotifications;
@@ -12,6 +15,13 @@ namespace InpcTracer.Configuration
     private readonly int index;
     private readonly IExpressionValidator expressionValidator;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="recordedNotifications">Collection of notifications recorded.</param>
+    /// <param name="memberExpression">The MemberExpression that produces the relevant property.</param>
+    /// <param name="index"></param>
+    /// <param name="expressionValidator"></param>
     public OrderedAssertConfiguration(IList<INotification> recordedNotifications, MemberExpression memberExpression, int index, IExpressionValidator expressionValidator) : base(recordedNotifications, memberExpression)
     {
       this.expressionValidator = expressionValidator;
@@ -20,9 +30,15 @@ namespace InpcTracer.Configuration
       this.recordedNotifications = recordedNotifications;
     }
 
-    public IOrderedAssertConfiguration ThenRecordedEvent<T>(Expression<Func<T>> expression)
+    /// <summary>
+    /// Assert that the next notification in the chain matches the specified property.
+    /// </summary>
+    /// <typeparam name="TResult">Type of the relevant property</typeparam>
+    /// <param name="expression">A function that produces the relevant property</param>
+    /// <returns>The next IOrderedAssertConfiguration in the notification chain</returns>
+    public IOrderedAssertConfiguration ThenRecordedEvent<TResult>(Expression<Func<TResult>> expression)
     {
-      var validatedExpression = this.expressionValidator.ValidateAsMember<T>(expression);
+      var validatedExpression = this.expressionValidator.ValidateAsMember<TResult>(expression);
       OrderedAssertConfiguration result = new OrderedAssertConfiguration(this.recordedNotifications, validatedExpression, this.index + 1, this.expressionValidator);
       result.ThrowIfNotMatching();
       return result;

@@ -3,8 +3,17 @@
   using System.Collections.Generic;
   using InpcTracer.Framework;
 
-  public class NotificationComparer : IEqualityComparer<INotification>
+  /// <summary>
+  /// Comparison of notifications.
+  /// </summary>
+  internal class NotificationComparer : IEqualityComparer<INotification>
   {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     public bool Equals(INotification x, INotification y)
     {
       Guard.AgainstNull(x, "x");
