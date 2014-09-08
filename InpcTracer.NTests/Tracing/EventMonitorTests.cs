@@ -12,8 +12,8 @@
   public class EventMonitorTests
   {
     [Fake]
-    internal INotifyPropertyChanged Target;
-
+    public INotifyPropertyChanged Target;
+    
     private EventMonitor<INotifyPropertyChanged> eventMonitor;
 
     [SetUp]
