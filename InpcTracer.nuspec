@@ -8,6 +8,7 @@
     <owners>9swampy</owners>
     <licenseUrl>https://github.com/9swampy/InpcTracer/blob/Master/InpcTracer/License.txt</licenseUrl>
     <projectUrl>https://github.com/9swampy/InpcTracer/wiki/Introduction-to-InpcTracer</projectUrl>
+    <iconUrl>https://github.com/9swampy/InpcTracer/blob/Master/InpcTracer/P=+32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A fluent interface for unit testing INotifyPropertyChanged events</description>
     <releaseNotes>

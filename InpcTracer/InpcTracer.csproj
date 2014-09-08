@@ -89,6 +89,7 @@
     <Content Include="P=+.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="P=+32.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
