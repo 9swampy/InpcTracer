@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>InpcTracer</id>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <title>InpcTracer</title>
     <authors>InpcTracer contributors</authors>
     <owners>9swampy</owners>
     <licenseUrl>https://github.com/9swampy/InpcTracer/blob/Master/InpcTracer/License.txt</licenseUrl>
-    <projectUrl>https://github.com/9swampy/InpcTracer</projectUrl>
+    <projectUrl>https://github.com/9swampy/InpcTracer/wiki/Introduction-to-InpcTracer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A fluent interface for unit testing INotifyPropertyChanged events</description>
     <releaseNotes>Beta release. Adding Net3.5 and Net4.0 targets</releaseNotes>

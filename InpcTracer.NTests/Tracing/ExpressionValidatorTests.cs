@@ -1,13 +1,12 @@
 ﻿namespace InpcTracer.NTests.Tracing
 {
-  using FakeItEasy;
-  using FluentAssertions;
-  using InpcTracer.NTests.TestHelpers;
-  using InpcTracer.Tracing;
-  using NUnit.Framework;
   using System;
   using System.Collections.Generic;
   using System.Reflection;
+  using FakeItEasy;
+  using FluentAssertions;
+  using InpcTracer.Tracing;
+  using NUnit.Framework;
 
   [TestFixture]
   public class ExpressionValidatorTests
@@ -21,30 +20,30 @@
     }
 
     [Test]
-    public void Exception_message_should_write_that_argument_cannot_be_null_when_expression_is_null()
+    public void ExceptionMessageShouldWriteThatArgumentCannotBeNullWhenExpressionIsNull()
     {
-      var message = this.GetExceptionMessage<ArgumentNullException>(() => this.expressionValidator.ValidateAsMember<IExpressionValidator>(null));
-
       var expectedMessage =
         @"Value cannot be null.
 Parameter name: expression";
 
-      Assert.That(message, Is.StringContaining(expectedMessage));
+      Action act = () => this.expressionValidator.ValidateAsMember<IExpressionValidator>(null);
+      
+      act.ShouldThrow<ArgumentNullException>().WithMessage(expectedMessage);
     }
 
     [Test]
-    public void Exception_message_should_write_that_argument_must_be_a_property_when_expression_it_is_not()
+    public void ExceptionMessageShouldWriteThatArgumentMustBeAPropertyWhenItIsNot()
     {
-      var message = this.GetExceptionMessage<ArgumentException>(() => this.expressionValidator.ValidateAsMember<IExpressionValidator>(() => this.expressionValidator));
-
       var expectedMessage =
-        @"The expression must be a Property";
+        @"The expression must be a property";
 
-      Assert.That(message, Is.StringContaining(expectedMessage));
+      Action act = () => this.expressionValidator.ValidateAsMember<IExpressionValidator>(() => this.expressionValidator);
+
+      act.ShouldThrow<ArgumentException>().WithMessage(expectedMessage);
     }
 
     [Test]
-    public void Should_validate_and_return_matching_member_when_member_is_a_property()
+    public void ShouldValidateAndReturnMatchingMemberWhenMemberIsAProperty()
     {
       // Arrange
       var objectWithCountProperty = A.Fake<IList<string>>();
@@ -56,14 +55,6 @@ Parameter name: expression";
       Assert.That(memberExpression, Is.Not.Null);
       Assert.That(memberExpression.Member.MemberType, Is.EqualTo(MemberTypes.Property));
       Assert.That(memberExpression.Member.Name, Is.EqualTo("Count"));
-    }
-
-    private string GetExceptionMessage<T>(Action failingAssertion)
-    {
-      var exception = Record.Exception(failingAssertion);
-      exception.Should().NotBeNull();
-      exception.Should().BeOfType<T>();
-      return exception.Message;
     }
   }
 }

@@ -12,10 +12,10 @@
     /// <summary>
     /// Assert that the next notification in the chain matches the specified property.
     /// </summary>
-    /// <typeparam name="TResult">Type of the relevant property</typeparam>
-    /// <param name="expression">A function that produces the relevant property</param>
-    /// <returns>The next IOrderedAssertConfiguration in the notification chain</returns>
+    /// <typeparam name="TResult">Type of the relevant property.</typeparam>
+    /// <param name="expression">A function that produces the relevant property.</param>
+    /// <returns>The next IOrderedAssertConfiguration in the notification chain.</returns>
     [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is by design when using the Expression-, Action- and Func-types.")]
-    IOrderedAssertConfiguration ThenRecordedEvent<TResult>(Expression<Func<TResult>> expression);
+    IOrderedAssertConfiguration ThenPropertyChanged<TResult>(Expression<Func<TResult>> expression);
   }
 }

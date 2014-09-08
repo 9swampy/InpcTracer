@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>InpcTracer.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,6 +57,9 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Tracing\MonitoredEvent.cs" />
+    <Compile Include="Tracing\EventMonitor.cs" />
+    <Compile Include="Tracing\IMonitoredEvent.cs" />
     <Compile Include="Tracing\Notification.cs" />
     <Compile Include="Output\StringBuilderOutputWriter.cs" />
     <Compile Include="Output\DefaultOutputWriter.cs" />
@@ -67,7 +71,7 @@
     <Compile Include="Configuration\IAssertConfiguration.cs" />
     <Compile Include="Configuration\IHideObjectMembers.cs" />
     <Compile Include="Configuration\IRepeatSpecification.cs" />
-    <Compile Include="Configuration\Repeated.cs" />
+    <Compile Include="Configuration\Notified.cs" />
     <Compile Include="Framework\StringExtensions.cs" />
     <Compile Include="Tracing\ExpressionValidator.cs" />
     <Compile Include="Tracing\IExpressionValidator.cs" />

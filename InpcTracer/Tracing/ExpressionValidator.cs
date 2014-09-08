@@ -26,7 +26,29 @@ namespace InpcTracer.Tracing
       var result = expression.Body as MemberExpression;
       if (result == null || result.Member.MemberType != System.Reflection.MemberTypes.Property)
       {
-        throw new ArgumentException("The expression must be a Property");
+        throw new ArgumentException("The expression must be a property");
+      }
+
+      return result;
+    }
+
+    /// <summary>
+    /// Validate the expression refers to an event.
+    /// </summary>
+    /// <typeparam name="T">Type of the event handler.</typeparam>
+    /// <param name="expression">Expression accessing the desired event.</param>
+    /// <returns>Validated member expression.</returns>
+    public MemberExpression ValidateAsEvent<T>(Expression<Func<T>> expression)
+    {
+      if (expression == null)
+      {
+        throw new ArgumentNullException("expression");
+      }
+
+      var result = expression.Body as MemberExpression;
+      if (result == null || result.Member.MemberType != System.Reflection.MemberTypes.Event)
+      {
+        throw new ArgumentException("The expression must be an event");
       }
 
       return result;

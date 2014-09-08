@@ -1,7 +1,6 @@
 namespace InpcTracer.Configuration
 {
   using System.Collections.Generic;
-  using System.Linq.Expressions;
   using InpcTracer.Output;
   using InpcTracer.Tracing;
 
@@ -11,14 +10,14 @@ namespace InpcTracer.Configuration
   public class AssertConfiguration : IAssertConfiguration
   {
     private readonly IList<INotification> recordedNotifications;
-    private readonly MemberExpression memberExpression;
+    private readonly string memberExpression;
 
     /// <summary>
-    /// Configures an assert for the specified member.
+    /// Initialises a new instance of the <see cref="AssertConfiguration" /> class.    
     /// </summary>
     /// <param name="recordedNotifications">Collection of notifications recorded.</param>
     /// <param name="memberExpression">The MemberExpression that produces the relevant property.</param>
-    public AssertConfiguration(IList<INotification> recordedNotifications, MemberExpression memberExpression)
+    public AssertConfiguration(IList<INotification> recordedNotifications, string memberExpression)
     {
       this.recordedNotifications = recordedNotifications;
       this.memberExpression = memberExpression;
@@ -31,7 +30,7 @@ namespace InpcTracer.Configuration
     public bool ExactlyOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      return recordedNotificationAsserter.WasRecorded(o => o.PropertyName == this.memberExpression.Member.Name, x => Repeated.Exactly.Once.Matches(x));
+      return recordedNotificationAsserter.WasRecorded(o => o.PropertyName == this.memberExpression, x => Notified.Exactly.Once.Matches(x));
     }
 
     /// <summary>
@@ -41,16 +40,16 @@ namespace InpcTracer.Configuration
     public bool AtLeastOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      return recordedNotificationAsserter.WasRecorded(o => o.PropertyName == this.memberExpression.Member.Name, x => Repeated.AtLeast.Once.Matches(x));
+      return recordedNotificationAsserter.WasRecorded(o => o.PropertyName == this.memberExpression, x => Notified.AtLeast.Once.Matches(x));
     }
 
     /// <summary>
     /// Asserts whether the notification has occurred at least once.
     /// </summary>
     /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called even once.</exception>
-    public void MustHaveHappened()
+    public void MustHaveOccurred()
     {
-      this.MustHaveHappened(Repeated.AtLeast.Once);
+      this.MustHaveBeen(Notified.AtLeast.Once);
     }
 
     /// <summary>
@@ -61,10 +60,10 @@ namespace InpcTracer.Configuration
     /// must have happened.</param>
     /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called a number of times
     /// that passes the repeat constraint.</exception>
-    public void MustHaveHappened(Repeated repeatConstraint)
+    public void MustHaveBeen(Notified repeatConstraint)
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      recordedNotificationAsserter.AssertWasRecorded(o => o.PropertyName == this.memberExpression.Member.Name, this.memberExpression.Member.Name, x => repeatConstraint.Matches(x), repeatConstraint.ToString());
+      recordedNotificationAsserter.AssertWasRecorded(o => o.PropertyName == this.memberExpression, this.memberExpression, x => repeatConstraint.Matches(x), repeatConstraint.ToString());
     }
   }
 }

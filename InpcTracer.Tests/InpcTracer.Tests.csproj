@@ -35,6 +35,14 @@
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.24.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
+    <Reference Include="FluentAssertions, Version=3.2.9999.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentAssertions.3.1.229.8\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=3.2.9999.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentAssertions.3.1.229.8\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Shouldly">
       <HintPath>..\packages\Shouldly.2.1.1\lib\net40\Shouldly.dll</HintPath>
@@ -48,6 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\InpcTracer.NTests\TestHelpers\Record.cs">
+      <Link>TestHelpers\Record.cs</Link>
+    </Compile>
+    <Compile Include="..\InpcTracer\Framework\Guard.cs">
+      <Link>TestHelpers\Guard.cs</Link>
+    </Compile>
+    <Compile Include="GivenMonitoringEventMonitor.cs" />
     <Compile Include="ExampleTargetProvider.cs" />
     <Compile Include="GivenAnIncorrectlyWiredTarget.cs" />
     <Compile Include="GivenAnExpressionValidator.cs" />

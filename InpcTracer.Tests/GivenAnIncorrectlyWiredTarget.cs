@@ -1,12 +1,12 @@
 ﻿namespace InpcTracer.Tests
 {
-  using FakeItEasy;
-  using InpcTracer.Tracing;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
-  using Shouldly;
   using System;
   using System.ComponentModel;
-  using Repeated = InpcTracer.Configuration.Repeated;
+  using FakeItEasy;
+  using FluentAssertions;
+  using InpcTracer.Configuration;
+  using InpcTracer.Tracing;
+  using Microsoft.VisualStudio.TestTools.UnitTesting;
 
   [TestClass]
   public class GivenAnIncorrectlyWiredTarget
@@ -33,36 +33,47 @@
     [TestMethod]
     public void WhenNoPropertyChangedThenHasRecordedEventShouldRaiseAnError()
     {
-      Should.Throw<InpcTracer.Framework.ExpectationException>(() => tracer.RecordedEvent(() => target.PropertyA).MustHaveHappened());
+      Action a = () => tracer.PropertyChanged(() => target.PropertyA).MustHaveOccurred();
+      a.ShouldThrow<InpcTracer.Framework.ExpectationException>();
     }
 
     [TestMethod]
     public void WhenIncorrectlyWiredPropertyChangedThenHasRecordedEventShouldRaiseAnError()
     {
       target.PropertyB = true;
-      Should.Throw<InpcTracer.Framework.ExpectationException>(() => tracer.RecordedEvent(() => target.PropertyB).MustHaveHappened());
+
+      Action a = () => tracer.PropertyChanged(() => target.PropertyB).MustHaveOccurred();
+      a.ShouldThrow<InpcTracer.Framework.ExpectationException>();
     }
 
     [TestMethod]
     public void WhenOtherPropertyChangedThenFirstRecordedEventShouldThrow()
     {
       target.PropertyA = true;
-      Should.Throw<ArgumentException>(() => tracer.FirstRecordedEvent(() => target.PropertyB));
+
+      Action a = () => tracer.FirstPropertyChanged(() => target.PropertyB);
+      a.ShouldThrow<ArgumentException>();
     }
 
     [TestMethod]
     public void WhenIncorrectlyWiredPropertyChangedThenFirstRecordedEventShouldThrow()
     {
       target.PropertyB = true;
-      Should.Throw<ArgumentException>(() => tracer.FirstRecordedEvent(() => target.PropertyB));
+
+      Action a = () => tracer.FirstPropertyChanged(() => target.PropertyB);
+      a.ShouldThrow<ArgumentException>();
     }
 
     [TestMethod]
     public void WhenSinglePropertyChangedThenSubsequentThenRecordedEventShouldThrow()
     {
       target.PropertyA = true;
-      Should.NotThrow(() => tracer.FirstRecordedEvent(() => target.PropertyA));
-      Should.Throw<ArgumentException>(() => tracer.FirstRecordedEvent(() => target.PropertyA).ThenRecordedEvent(() => target.PropertyB));
+
+      Action a = () => tracer.FirstPropertyChanged(() => target.PropertyA);
+      a.ShouldNotThrow();
+
+      Action b = () => tracer.FirstPropertyChanged(() => target.PropertyA).ThenPropertyChanged(() => target.PropertyB);
+      b.ShouldThrow<ArgumentException>();
     }
 
     [TestMethod]
@@ -70,17 +81,26 @@
     {
       target.PropertyA = true;
       target.PropertyB = true;
-      Should.NotThrow(() => tracer.FirstRecordedEvent(() => target.PropertyA));
-      Should.Throw<ArgumentException>(() => tracer.FirstRecordedEvent(() => target.PropertyA).ThenRecordedEvent(() => target.PropertyB));
+
+      Action a = () => tracer.FirstPropertyChanged(() => target.PropertyA);
+      a.ShouldNotThrow();
+
+      Action b = () => tracer.FirstPropertyChanged(() => target.PropertyA).ThenPropertyChanged(() => target.PropertyB);
+      b.ShouldThrow<ArgumentException>();
     }
 
     [TestMethod]
     public void WhenIncorrectlyWiredPropertyChangedThenHasNotRecordedEventShouldNotThrow()
     {
       target.PropertyB = true;
-      Should.NotThrow(() => tracer.RecordedEvent(() => target.PropertyB).MustHaveHappened(Repeated.Never));
-      Should.NotThrow(() => tracer.RecordedEvent(() => target.PropertyB).MustHaveHappened(InpcTracer.Configuration.Repeated.Never));
-      tracer.RecordedEvent(() => target.PropertyB).AtLeastOnce().ShouldBe(false);
+
+      Action a = () => tracer.PropertyChanged(() => target.PropertyA).MustHaveBeen(Notified.Never);
+      a.ShouldNotThrow();
+
+      Action b = () => tracer.PropertyChanged(() => target.PropertyB).MustHaveBeen(Notified.Never);
+      b.ShouldNotThrow();
+      
+      tracer.PropertyChanged(() => target.PropertyB).AtLeastOnce().Should().Be(false);
     }
   }
 }

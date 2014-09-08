@@ -4,8 +4,8 @@
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using FakeItEasy;
   using System.ComponentModel;
-  using Repeated = InpcTracer.Configuration.Repeated;
-
+  using InpcTracer.Configuration;
+  
   [TestClass]
   public class Sample
   {
@@ -15,7 +15,7 @@
     }
 
     [TestMethod]
-    public void Test_Notify_Property_Changed_Fired()
+    public void TestNotifyPropertyChangedFired()
     {
       ITraceable target = A.Fake<ITraceable>();
       A.CallTo(target).Where(x => x.Method.Name == "set_Active")
@@ -27,16 +27,16 @@
       var tracer = new InpcTracer.InpcTracer<ITraceable>(target);
 
       // Check for one event
-      Assert.IsTrue(tracer.WhileProcessing(() => target.Active = true).RecordedEvent(() => target.Active).ExactlyOnce());
+      Assert.IsTrue(tracer.WhileProcessing(() => target.Active = true).PropertyChanged(() => target.Active).ExactlyOnce());
       // or
-      tracer.WhileProcessing(() => target.Active = true).RecordedEvent(() => target.Active).MustHaveHappened(Repeated.Exactly.Once);
+      tracer.WhileProcessing(() => target.Active = true).PropertyChanged(() => target.Active).MustHaveBeen(Notified.Exactly.Once);
 
       // Check for exact order of two events
       tracer.WhileProcessing(() =>
       {
         target.Active = false;
         target.Active = true;
-      }).FirstRecordedEvent(() => target.Active).ThenRecordedEvent(() => target.Active);
+      }).FirstPropertyChanged(() => target.Active).ThenPropertyChanged(() => target.Active);
     }
   }
 }

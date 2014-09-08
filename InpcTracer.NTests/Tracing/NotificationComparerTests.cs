@@ -1,9 +1,9 @@
 namespace InpcTracer.NTests.Tracing
 {
+  using System.Collections.Generic;
   using FakeItEasy;
   using InpcTracer.Tracing;
   using NUnit.Framework;
-  using System.Collections.Generic;
 
   [TestFixture]
   public class NotificationComparerTests
@@ -17,7 +17,7 @@ namespace InpcTracer.NTests.Tracing
     }
 
     [Test]
-    public void Should_validate_when_same()
+    public void ShouldValidateWhenSame()
     {
       //Arrange
       INotification a = A.Fake<INotification>();
@@ -33,7 +33,7 @@ namespace InpcTracer.NTests.Tracing
     }
 
     [Test]
-    public void Should_invalidate_when_different()
+    public void ShouldInvalidateWhenDifferent()
     {
       //Arrange
       INotification a = A.Fake<INotification>();

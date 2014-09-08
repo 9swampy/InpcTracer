@@ -1,15 +1,14 @@
 ﻿namespace InpcTracer.NTests.Output
 {
-  using InpcTracer.Output;
   using System;
   using System.Collections.Generic;
-  using InpcTracer.Framework;
+  using FakeItEasy;
+  using FluentAssertions;
   using InpcTracer.NTests;
   using InpcTracer.NTests.TestHelpers;
-  using FluentAssertions;
-  using NUnit.Framework;
+  using InpcTracer.Output;
   using InpcTracer.Tracing;
-  using FakeItEasy;
+  using NUnit.Framework;
 
   [TestFixture]
   public class RecordedNotificationAsserterTests
@@ -25,7 +24,7 @@
     }
 
     [Test]
-    public void AssertWasCalled_should_pass_when_the_repeatPredicate_returns_true_for_the_number_of_matching_calls()
+    public void AssertWasCalledShouldPassWhenTheRepeatPredicateReturnsTrueForTheNumberOfMatchingCalls()
     {
       this.StubCalls(2);
 
@@ -35,7 +34,7 @@
     }
 
     [Test]
-    public void AssertWasCalled_should_fail_when_the_repeatPredicate_returns_false_for_the_number_of_matching_calls()
+    public void AssertWasCalledShouldFailWhenTheRepeatPredicateReturnsFalseForTheNumberOfMatchingCalls()
     {
       this.StubCalls(2);
 
@@ -45,7 +44,7 @@
     }
 
     [Test]
-    public void AssertWasCalled_should_pass_the_number_of_matching_calls_to_the_repeatPredicate()
+    public void AssertWasCalledShouldPassTheNumberOfMatchingCallsToTheRepeatPredicate()
     {
       int? numberPassedToRepeatPredicate = null;
 
@@ -59,7 +58,7 @@
     }
 
     [Test]
-    public void Exception_message_should_start_with_call_specification()
+    public void ExceptionMessageShouldStartWithCallSpecification()
     {
       var asserter = this.CreateAsserter();
 
@@ -75,7 +74,7 @@
     }
 
     [Test]
-    public void Exception_message_should_write_repeat_expectation()
+    public void ExceptionMessageShouldWriteRepeatExpectation()
     {
       this.StubCalls(2);
 
@@ -92,7 +91,7 @@
     }
 
     [Test]
-    public void Exception_message_should_call_the_call_writer_to_append_calls_list()
+    public void ExceptionMessageShouldCallTheCallWriterToAppendCallsList()
     {
       this.StubCalls(2);
 
@@ -104,7 +103,7 @@
     }
 
     [Test]
-    public void Exception_message_should_write_that_no_calls_were_made_when_calls_is_empty()
+    public void ExceptionMessageShouldWriteThatNoCallsWereMadeWhenCallsIsEmpty()
     {
       this.calls.Clear();
 
@@ -121,7 +120,7 @@
     }
 
     [Test]
-    public void Exception_message_should_end_with_blank_line()
+    public void ExceptionMessageShouldEndWithBlankLine()
     {
       var asserter = this.CreateAsserter();
 
@@ -132,7 +131,7 @@
     }
 
     [Test]
-    public void Exception_message_should_start_with_blank_line()
+    public void ExceptionMessageShouldStartWithBlankLine()
     {
       var asserter = this.CreateAsserter();
 

@@ -9,7 +9,7 @@
   public class OutputWriterExtensionsTests
   {
     [Test]
-    public void Should_append_line_break_when_calling_write_line()
+    public void ShouldAppendLineBreakWhenCallingWriteLine()
     {
       // Arrange
       var writer = A.Fake<IOutputWriter>();
@@ -22,7 +22,7 @@
     }
 
     [Test]
-    public void Should_return_same_instance_when_calling_write_line()
+    public void ShouldReturnSameInstanceWhenCallingWriteLine()
     {
       // Arrange
       var writer = A.Dummy<IOutputWriter>();

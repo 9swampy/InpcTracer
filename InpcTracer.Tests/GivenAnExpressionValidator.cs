@@ -1,9 +1,9 @@
 namespace InpcTracer.Tests
 {
+  using System;
+  using FluentAssertions;
   using InpcTracer.Tracing;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
-  using Shouldly;
-  using System;
 
   [TestClass]
   public class GivenAnExpressionValidator
@@ -12,14 +12,17 @@ namespace InpcTracer.Tests
     public void WhenNullExpressionPassedInToValidateAsMemberThenShouldThrow()
     {
       IExpressionValidator expressionValidator = new ExpressionValidator();
-      Should.Throw<ArgumentNullException>(() => expressionValidator.ValidateAsMember<bool>(null));
+      Action a = () => expressionValidator.ValidateAsMember<bool>(null);
+      a.ShouldThrow<ArgumentNullException>();
     }
 
     [TestMethod]
     public void WhenNonMemberExpressionPassedInToValidateAsMemberThenShouldThrow()
     {
       IExpressionValidator expressionValidator = new ExpressionValidator();
-      Should.Throw<ArgumentException>(() => expressionValidator.ValidateAsMember<IExpressionValidator>(() => expressionValidator));
+
+      Action a = () => expressionValidator.ValidateAsMember<IExpressionValidator>(() => expressionValidator);
+      a.ShouldThrow<ArgumentException>();
     }
   }
 }

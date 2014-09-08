@@ -21,19 +21,19 @@ namespace InpcTracer
     private readonly IList<INotification> recordedEventList = new List<INotification>();
 
     /// <summary>
-    /// Creates a wrapper around the specified notifier.
+    /// Initialises a new instance of the <see cref="InpcTracer{TNotifyPropertyChanged}" /> class.
     /// </summary>
-    /// <param name="notifier"></param>
+    /// <param name="notifier">Inpc object to wrap.</param>
     public InpcTracer(TNotifyPropertyChanged notifier)
       : this(notifier, new ExpressionValidator())
     {
     }
 
     /// <summary>
-    /// Creates a wrapper around the specified notifier.
+    /// Initialises a new instance of the <see cref="InpcTracer{TNotifyPropertyChanged}" /> class.
     /// </summary>
-    /// <param name="notifier"></param>
-    /// <param name="expressionValidator"></param>
+    /// <param name="notifier">Inpc object to wrap.</param>
+    /// <param name="expressionValidator">ExpressionValidator dependency.</param>
     public InpcTracer(TNotifyPropertyChanged notifier, IExpressionValidator expressionValidator)
     {
       this.expressionValidator = expressionValidator;
@@ -43,7 +43,7 @@ namespace InpcTracer
     }
 
     /// <summary>
-    /// Destructor to clean up references held by the instance.
+    /// Finalises an instance of the <see cref="InpcTracer{TNotifyPropertyChanged}" /> class.
     /// </summary>
     ~InpcTracer()
     {
@@ -55,7 +55,7 @@ namespace InpcTracer
     /// Records notifications after clearing any pre-existing notifications.
     /// </summary>
     /// <param name="action">Action to process.</param>
-    /// <returns></returns>
+    /// <returns>Initialized InpcTracer.</returns>
     public InpcTracer<TNotifyPropertyChanged> WhileProcessing(Action action)
     {
       Guard.AgainstNull(action, "action");
@@ -72,10 +72,10 @@ namespace InpcTracer
     /// <param name="expression">A function that produces the relevant property.</param>
     /// <returns>A configuration element to determine the assertion.</returns>
     [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is by design when using the Expression-, Action- and Func-types.")]
-    public IAssertConfiguration RecordedEvent<TResult>(Expression<Func<TResult>> expression)
+    public IAssertConfiguration PropertyChanged<TResult>(Expression<Func<TResult>> expression)
     {
       var body = this.expressionValidator.ValidateAsMember<TResult>(expression);
-      var result = new AssertConfiguration(this.recordedEventList, body);
+      var result = new AssertConfiguration(this.recordedEventList, body.Member.Name);
       return result;
     }
 
@@ -86,10 +86,10 @@ namespace InpcTracer
     /// <param name="expression">A function that produces the relevant property.</param>
     /// <returns>The next IOrderedAssertConfiguration in the notification chain.</returns>
     [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is by design when using the Expression-, Action- and Func-types.")]
-    public IOrderedAssertConfiguration FirstRecordedEvent<TResult>(Expression<Func<TResult>> expression)
+    public IOrderedAssertConfiguration FirstPropertyChanged<TResult>(Expression<Func<TResult>> expression)
     {
       MemberExpression body = this.expressionValidator.ValidateAsMember<TResult>(expression);
-      OrderedAssertConfiguration result = new OrderedAssertConfiguration(this.recordedEventList, body, 0, this.expressionValidator);
+      OrderedAssertConfiguration result = new OrderedAssertConfiguration(this.recordedEventList, body.Member.Name, 0, this.expressionValidator);
       result.ThrowIfNotMatching();
       return result;
     }

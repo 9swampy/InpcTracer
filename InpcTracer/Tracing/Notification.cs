@@ -8,8 +8,9 @@ namespace InpcTracer.Tracing
   public class Notification : INotification
   {
     /// <summary>
-    /// Create a representation of a recorded notification.
+    /// Initialises a new instance of the <see cref="Notification" /> class.
     /// </summary>
+    /// <param name="propertyName">Name of the property being notified.</param>
     public Notification(string propertyName)
     {
       Guard.AgainstNull(propertyName, "propertyName");

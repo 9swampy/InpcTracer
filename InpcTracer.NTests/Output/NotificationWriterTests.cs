@@ -1,13 +1,13 @@
 ﻿namespace InpcTracer.NTests.Output
 {
-  using InpcTracer.Tracing;
   using System;
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
-  using NUnit.Framework;
   using FakeItEasy;
   using InpcTracer.Output;
+  using InpcTracer.Tracing;
+  using NUnit.Framework;
 
   [TestFixture]
   public class NotificationWriterTests
@@ -16,7 +16,7 @@
     private StringBuilderOutputWriter writer;
 
     [Fake]
-    public IEqualityComparer<INotification> CallComparer { get; set; }
+    internal IEqualityComparer<INotification> CallComparer { get; set; }
 
     [Fake]
     internal INotificationFormatter CallFormatter { get; set; }
@@ -27,14 +27,14 @@
       Fake.InitializeFixture(this);
 
       A.CallTo(() => this.CallFormatter.GetDescription(A<INotification>._))
-          .Returns("Default notification description");
+       .Returns("Default notification description");
 
       this.calls = new List<INotification>();
       this.writer = new StringBuilderOutputWriter();
     }
 
     [Test]
-    public void WriteNotifications_should_list_the_calls_in_the_calls_collection()
+    public void WriteNotificationsShouldListTheCallsInTheCallsCollection()
     {
       this.StubCalls(10);
 
@@ -42,7 +42,7 @@
       foreach (var call in this.calls)
       {
         var boundCallNumber = callNumber;
-        A.CallTo(() => this.CallFormatter.GetDescription(call)).Returns("Fake notification " + boundCallNumber.ToString(CultureInfo.CurrentCulture));
+        A.CallTo(() => this.CallFormatter.GetDescription(call)).Returns(string.Format("Fake notification {0}", boundCallNumber.ToString(CultureInfo.CurrentCulture)));
         callNumber++;
       }
 
@@ -51,7 +51,7 @@
 
       var message = this.writer.Builder.ToString();
       var expectedMessage =
-@"1:  Fake notification 1
+        @"1:  Fake notification 1
 2:  Fake notification 2
 3:  Fake notification 3
 4:  Fake notification 4
@@ -66,7 +66,7 @@
     }
 
     [Test]
-    public void WriteNotifications_should_skip_duplicate_calls_in_row()
+    public void WriteNotificationsShouldSkipDuplicateCallsInRow()
     {
       // Arrange
       this.StubCalls(10);
@@ -84,7 +84,7 @@
       // Assert
       var message = this.writer.Builder.ToString();
       var expectedMessage =
-@"1:  Fake notification repeated 9 times
+        @"1:  Fake notification repeated 9 times
 ...
 10: Other notification";
 
@@ -92,7 +92,7 @@
     }
 
     [Test]
-    public void WriteNotifications_should_not_skip_duplicate_messages_that_are_not_in_row()
+    public void WriteNotificationsShouldNotSkipDuplicateMessagesThatAreNotInRow()
     {
       this.StubCalls(4);
 
@@ -111,7 +111,7 @@
 
       var message = this.writer.Builder.ToString();
       var expectedMessage =
-@"1: odd
+        @"1: odd
 2: even
 3: odd
 4: even";
@@ -120,7 +120,7 @@
     }
 
     [Test]
-    public void WriteNotifications_should_truncate_calls_list_when_more_than_a_hundred_call_lines_are_printed()
+    public void WriteNotificationsShouldTruncateCallsListWhenMoreThanAHundredCallLinesArePrinted()
     {
       this.StubCalls(30);
 
@@ -136,24 +136,24 @@
 
       var message = this.writer.Builder.ToString();
       var expectedMessage =
-@"19: Last notification
+        @"19: Last notification
 ... Found 11 more notifications not displayed here.";
 
       Assert.That(message, Is.StringContaining(expectedMessage));
     }
 
     [Test]
-    public void WriteNotifications_should_indent_values_with_new_lines_correctly()
+    public void WriteNotificationsShouldIndentValuesWithNewLinesCorrectly()
     {
       // Arrange
       this.StubCalls(10);
 
       var text =
-@"first line
+        @"first line
 second line";
 
       var callIndex = 0;
-      A.CallTo(() => this.CallFormatter.GetDescription(A<INotification>._)).ReturnsLazily(() => text + ++callIndex);
+      A.CallTo(() => this.CallFormatter.GetDescription(A<INotification>._)).ReturnsLazily(() => string.Format("{0}{1}", text, ++callIndex));
 
       var callWriter = this.CreateWriter();
 
@@ -167,18 +167,18 @@ second line";
       var message = this.writer.Builder.ToString();
 
       var expectedText1 =
-@"1:  first line
+        @"1:  first line
     second line";
 
       var expectedText2 =
-@"10: first line
+        @"10: first line
     second line";
 
       Assert.That(message, Is.StringContaining(expectedText1).And.StringContaining(expectedText2));
     }
 
     [Test]
-    public void WriteNotifications_should_write_new_line_at_end()
+    public void WriteNotificationsShouldWriteNewLineAtEnd()
     {
       // Arrange
       this.StubCalls(1);
@@ -193,7 +193,7 @@ second line";
     }
 
     [Test]
-    public void Should_write_nothing_if_call_list_is_empty()
+    public void ShouldWriteNothingIfCallListIsEmpty()
     {
       // Arrange
       var callWriter = this.CreateWriter();
