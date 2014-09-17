@@ -11,7 +11,7 @@
   /// <typeparam name="T">Type of the monitored object.</typeparam>
   public class EventMonitor<T>
   {
-    private readonly IList<IMonitoredEvent> recordedEventList = new List<IMonitoredEvent>();
+    private readonly IList<INotification> recordedEventList = new List<INotification>();
 
     private readonly T monitoredObject;
 
@@ -40,9 +40,20 @@
     /// <returns>Assert configuration for the specified event.</returns>
     public IAssertConfiguration Event(string eventName)
     {
+      return this.Event(eventName, 0);
+    }
+
+    /// <summary>
+    /// Generate a configuration to assert if the specified property has been notified.
+    /// </summary>
+    /// <param name="eventName">Name of the relevant event.</param>
+    /// <param name="timeout">Maximum milliseconds to wait for events to occur.</param>
+    /// <returns>Assert configuration for the specified event.</returns>
+    public IAssertConfiguration Event(string eventName, int timeout)
+    {
       if (this.monitoredObject.GetType().GetEvents().Any(o => o.Name == eventName))
       {
-        return new AssertConfiguration(this.recordedEventList.OfType<INotification>().ToList(), eventName);
+        return new AssertConfiguration(this.recordedEventList, eventName, timeout);
       }
       else
       {

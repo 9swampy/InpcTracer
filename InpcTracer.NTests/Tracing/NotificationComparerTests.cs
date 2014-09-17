@@ -19,15 +19,15 @@ namespace InpcTracer.NTests.Tracing
     [Test]
     public void ShouldValidateWhenSame()
     {
-      //Arrange
+      // Arrange
       INotification a = A.Fake<INotification>();
       A.CallTo(() => a.PropertyName).Returns("a");
       INotification b = A.Fake<INotification>();
       A.CallTo(() => b.PropertyName).Returns("a");
 
-      //Act
+      // Act
 
-      //Assert
+      // Assert
       Assert.That(this.notificationComparer.Equals(a, b), Is.True);
       Assert.That(this.notificationComparer.GetHashCode(a), Is.EqualTo(this.notificationComparer.GetHashCode(b)));
     }
@@ -35,15 +35,15 @@ namespace InpcTracer.NTests.Tracing
     [Test]
     public void ShouldInvalidateWhenDifferent()
     {
-      //Arrange
+      // Arrange
       INotification a = A.Fake<INotification>();
       A.CallTo(() => a.PropertyName).Returns("a");
       INotification b = A.Fake<INotification>();
       A.CallTo(() => b.PropertyName).Returns("b");
 
-      //Act
+      // Act
 
-      //Assert
+      // Assert
       Assert.That(this.notificationComparer.Equals(a, b), Is.False);
       Assert.That(this.notificationComparer.GetHashCode(a), Is.Not.EqualTo(this.notificationComparer.GetHashCode(b)));
     }

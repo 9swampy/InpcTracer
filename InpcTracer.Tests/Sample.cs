@@ -27,6 +27,7 @@ namespace InpcTracer.Tests
 
       // Check for one event
       Assert.IsTrue(tracer.WhileProcessing(() => target.Active = true).PropertyChanged(() => target.Active).ExactlyOnce());
+
       // or
       tracer.WhileProcessing(() => target.Active = true).PropertyChanged(() => target.Active).MustHaveBeen(Notified.Exactly.Once);
 

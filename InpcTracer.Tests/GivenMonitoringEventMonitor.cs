@@ -9,7 +9,7 @@
   public class GivenMonitoringEventMonitor
   {
     [Fake]
-    internal INotifyPropertyChanged Target;
+    private INotifyPropertyChanged target;
 
     private InpcTracer.Tracing.EventMonitor<INotifyPropertyChanged> eventMonitor;
 
@@ -18,21 +18,21 @@
     {
       Fake.InitializeFixture(this);
 
-      this.eventMonitor = new Tracing.EventMonitor<INotifyPropertyChanged>(this.Target);
+      this.eventMonitor = new Tracing.EventMonitor<INotifyPropertyChanged>(this.target);
     }
 
     [TestMethod]
     public void WhenEventRaisedOnceThenItShouldBeRecordedOnce()
     {
-      this.Target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
+      this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
       this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Once);
     }
 
     [TestMethod]
     public void WhenEventRaisedTwiceThenItShouldBeRecordedTwice()
     {
-      this.Target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
-      this.Target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
+      this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
+      this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
       this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Twice);
     }
   }

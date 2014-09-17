@@ -3,9 +3,9 @@
   using System;
   using System.Diagnostics.CodeAnalysis;
   using System.Linq.Expressions;
+  using InpcTracer.Configuration;
   using NUnit.Framework;
   using Guard = InpcTracer.Framework.Guard;
-  using InpcTracer.Configuration;
 
   [TestFixture]
   public class RepeatedTests
@@ -68,12 +68,12 @@
           ExpectedDescription = "exactly 99 times"
         }).AsTestCaseSource();
 
-    [TestCase(1, 1, Result = true)]
-    [TestCase(1, 2, Result = false)]
-    public bool LikeShouldReturnInstanceThatDelegatesToExpression(int expected, int actual)
+    [TestCase(1, 1, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(1, 2, Result = RepeatMatch.Unsatisfied)]
+    public RepeatMatch LikeShouldReturnInstanceThatDelegatesToExpression(int expected, int actual)
     {
       // Arrange
-      Expression<Func<int, bool>> repeatPredicate = repeat => repeat == expected;
+      Expression<Func<int, RepeatMatch>> repeatPredicate = repeat => repeat == expected ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied;
 
       // Act
       var happened = Notified.Like(repeatPredicate);
@@ -86,18 +86,19 @@
     public void LikeShouldReturnInstanceThatHasCorrectDescription()
     {
       // Arrange
-      Expression<Func<int, bool>> repeatPredicate = repeat => repeat == 1;
+      Expression<Func<int, RepeatMatch>> repeatPredicate = repeat => repeat == 1 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied;
 
       // Act
       var happened = Notified.Like(repeatPredicate);
 
       // Assert
-      Assert.That(happened.ToString(), Is.EqualTo("the number of times specified by the predicate 'repeat => (repeat == 1)'"));
+      Assert.That(happened.ToString(), Is.EqualTo("the number of times specified by the predicate 'repeat => IIF((repeat == 1), SatisfiedPending, Unsatisfied)'"));
     }
 
-    [TestCase(1, Result = true)]
-    [TestCase(2, Result = false)]
-    public bool ExactlyOnceShouldOnlyMatchOne(int actualRepeat)
+    [TestCase(0, Result = RepeatMatch.UnsatisfiedPending)]
+    [TestCase(1, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(2, Result = RepeatMatch.Unsatisfied)]
+    public RepeatMatch ExactlyOnceShouldOnlyMatchOne(int actualRepeat)
     {
       // Arrange
 
@@ -108,9 +109,10 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(2, Result = true)]
-    [TestCase(0, Result = false)]
-    public bool ExactlyTwiceShouldOnlyMatchTwo(int actualRepeat)
+    [TestCase(3, Result = RepeatMatch.Unsatisfied)]
+    [TestCase(2, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(0, Result = RepeatMatch.UnsatisfiedPending)]
+    public RepeatMatch ExactlyTwiceShouldOnlyMatchTwo(int actualRepeat)
     {
       // Arrange
 
@@ -121,9 +123,9 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(0, 0, Result = true)]
-    [TestCase(0, 1, Result = false)]
-    public bool ExactlyNumberOfTimesShouldMatchAsExpected(int actualRepeat, int expectedNumberOfTimes)
+    [TestCase(0, 0, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(0, 1, Result = RepeatMatch.UnsatisfiedPending)]
+    public RepeatMatch ExactlyNumberOfTimesShouldMatchAsExpected(int actualRepeat, int expectedNumberOfTimes)
     {
       // Arrange
 
@@ -134,10 +136,10 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(1, Result = true)]
-    [TestCase(0, Result = false)]
-    [TestCase(2, Result = true)]
-    public bool AtLeastOnceShouldMatchOneOrHigher(int actualRepeat)
+    [TestCase(1, Result = RepeatMatch.Satisfied)]
+    [TestCase(0, Result = RepeatMatch.UnsatisfiedPending)]
+    [TestCase(2, Result = RepeatMatch.Satisfied)]
+    public RepeatMatch AtLeastOnceShouldMatchOneOrHigher(int actualRepeat)
     {
       // Arrange
 
@@ -148,11 +150,11 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(1, Result = false)]
-    [TestCase(0, Result = false)]
-    [TestCase(2, Result = true)]
-    [TestCase(3, Result = true)]
-    public bool AtLeastTwiceShouldOnlyMatchTwoOrHigher(int actualRepeat)
+    [TestCase(1, Result = RepeatMatch.UnsatisfiedPending)]
+    [TestCase(0, Result = RepeatMatch.UnsatisfiedPending)]
+    [TestCase(2, Result = RepeatMatch.Satisfied)]
+    [TestCase(3, Result = RepeatMatch.Satisfied)]
+    public RepeatMatch AtLeastTwiceShouldOnlyMatchTwoOrHigher(int actualRepeat)
     {
       // Arrange
 
@@ -163,12 +165,12 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(0, 0, Result = true)]
-    [TestCase(1, 0, Result = true)]
-    [TestCase(1, 1, Result = true)]
-    [TestCase(0, 1, Result = false)]
-    [TestCase(2, 1, Result = true)]
-    public bool AtLeastNumberOfTimesShouldMatchAsExpected(int actualRepeat, int expectedNumberOfTimes)
+    [TestCase(0, 0, Result = RepeatMatch.Satisfied)]
+    [TestCase(1, 0, Result = RepeatMatch.Satisfied)]
+    [TestCase(1, 1, Result = RepeatMatch.Satisfied)]
+    [TestCase(0, 1, Result = RepeatMatch.UnsatisfiedPending)]
+    [TestCase(2, 1, Result = RepeatMatch.Satisfied)]
+    public RepeatMatch AtLeastNumberOfTimesShouldMatchAsExpected(int actualRepeat, int expectedNumberOfTimes)
     {
       // Arrange
 
@@ -179,10 +181,10 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(0, Result = true)]
-    [TestCase(1, Result = true)]
-    [TestCase(2, Result = false)]
-    public bool NoMoreThanOnceShouldMatchZeroAndOneOnly(int actualRepeat)
+    [TestCase(0, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(1, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(2, Result = RepeatMatch.Unsatisfied)]
+    public RepeatMatch NoMoreThanOnceShouldMatchZeroAndOneOnly(int actualRepeat)
     {
       // Arrange
 
@@ -193,11 +195,11 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(0, Result = true)]
-    [TestCase(1, Result = true)]
-    [TestCase(2, Result = true)]
-    [TestCase(3, Result = false)]
-    public bool NoMoreThanTwiceShouldMatchZeroOneAndTwoOnly(int actualRepeat)
+    [TestCase(0, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(1, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(2, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(3, Result = RepeatMatch.Unsatisfied)]
+    public RepeatMatch NoMoreThanTwiceShouldMatchZeroOneAndTwoOnly(int actualRepeat)
     {
       // Arrange
 
@@ -208,12 +210,12 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(0, 0, Result = true)]
-    [TestCase(1, 0, Result = false)]
-    [TestCase(1, 1, Result = true)]
-    [TestCase(0, 1, Result = true)]
-    [TestCase(2, 1, Result = false)]
-    public bool NoMoreThanTimesShouldMatchAsExpected(int actualRepeat, int expectedNumberOfTimes)
+    [TestCase(0, 0, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(1, 0, Result = RepeatMatch.Unsatisfied)]
+    [TestCase(1, 1, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(0, 1, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(2, 1, Result = RepeatMatch.Unsatisfied)]
+    public RepeatMatch NoMoreThanTimesShouldMatchAsExpected(int actualRepeat, int expectedNumberOfTimes)
     {
       // Arrange
 
@@ -224,9 +226,9 @@
       return repeated.Matches(actualRepeat);
     }
 
-    [TestCase(0, Result = true)]
-    [TestCase(1, Result = false)]
-    public bool NeverShouldMatchZeroOnly(int actualRepeat)
+    [TestCase(0, Result = RepeatMatch.SatisfiedPending)]
+    [TestCase(1, Result = RepeatMatch.Unsatisfied)]
+    public RepeatMatch NeverShouldMatchZeroOnly(int actualRepeat)
     {
       // Arrange
 
@@ -253,10 +255,10 @@
 
     private class RepeatDescriptionTestCase
     {
-      [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used reflecively.")]
+      [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used reflectively.")]
       public Func<Notified> Repeat { get; set; }
 
-      [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used reflecively.")]
+      [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used reflectively.")]
       public string ExpectedDescription { get; set; }
     }
   }

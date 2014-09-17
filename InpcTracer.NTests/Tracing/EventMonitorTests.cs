@@ -27,7 +27,7 @@
     [Test]
     public void AfterResetRecordedEventShouldBeCleared()
     {
-      this.Target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("")).Now;
+      this.Target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs(string.Empty)).Now;
       this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Once);
       this.eventMonitor.Reset();
       this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Never);

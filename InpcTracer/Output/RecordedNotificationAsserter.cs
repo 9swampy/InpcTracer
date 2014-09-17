@@ -2,7 +2,10 @@
 {
   using System;
   using System.Collections.Generic;
+  using System.Diagnostics;
   using System.Linq;
+  using System.Threading;
+  using InpcTracer.Configuration;
   using InpcTracer.Framework;
   using InpcTracer.Tracing;
 
@@ -22,25 +25,32 @@
 
     public delegate IRecordedNotificationAsserter Factory(IEnumerable<INotification> calls);
 
-    public virtual void AssertWasRecorded(Func<INotification, bool> notificationPredicate, string notificationDescription, Func<int, bool> repeatPredicate, string repeatDescription)
+    public virtual void AssertWasRecorded(Func<INotification, bool> notificationPredicate, string notificationDescription, Func<int, RepeatMatch> repeatPredicate, string repeatDescription)
     {
-      var matchedNotificationCount = this.notifications.Count(notificationPredicate);
-      if (!repeatPredicate(matchedNotificationCount))
+      this.AssertWasRecorded(notificationPredicate, notificationDescription, repeatPredicate, repeatDescription, 0);
+    }
+
+    public virtual void AssertWasRecorded(Func<INotification, bool> notificationPredicate, string notificationDescription, Func<int, RepeatMatch> repeatPredicate, string repeatDescription, int timeout)
+    {
+      if (this.WasRecorded(notificationPredicate, repeatPredicate, timeout) != TimeoutExtendedBoolResult.True)
       {
+        var matchedNotificationCount = this.notifications.Count(notificationPredicate);
         var message = CreateExceptionMessage(this.notifications, this.notificationWriter, notificationDescription, repeatDescription, matchedNotificationCount);
         throw new ExpectationException(message);
       }
     }
 
-    public bool WasRecorded(Func<INotification, bool> notificationPredicate, Func<int, bool> repeatPredicate)
+    public bool WasRecorded(Func<INotification, bool> notificationPredicate, Func<int, RepeatMatch> repeatPredicate)
     {
-      var matchedNotificationCount = this.notifications.Count(notificationPredicate);
-      if (repeatPredicate(matchedNotificationCount))
-      {
-        return true;
-      }
+      return this.WasRecorded(notificationPredicate, repeatPredicate, 0) == TimeoutExtendedBoolResult.True;
+    }
 
-      return false;
+    public TimeoutExtendedBoolResult WasRecorded(Func<INotification, bool> notificationPredicate, Func<int, RepeatMatch> repeatPredicate, int timeout)
+    {
+      TimeSpan delay = new TimeSpan(0, 0, 0, 0, 10);
+      AwaitSuccessOrTimeout(this.HasDeterministicResult(notificationPredicate, repeatPredicate), new TimeSpan(0, 0, 0, 0, timeout), delay);
+      var matchedNotificationCount = this.notifications.Count(notificationPredicate);
+      return repeatPredicate(matchedNotificationCount).ToTimeoutExtendedBoolResult(timeout);
     }
 
     private static string CreateExceptionMessage(
@@ -95,6 +105,40 @@
       {
         notificationWriter.WriteNotifications(notifications, writer);
       }
+    }
+
+    private static bool AwaitSuccessOrTimeout(Func<bool> task, TimeSpan timeout, TimeSpan pause)
+    {
+      if (pause.TotalMilliseconds < 0)
+      {
+        throw new ArgumentException("pause must be >= 0 milliseconds");
+      }
+
+      Stopwatch stopwatch = Stopwatch.StartNew();
+      do
+      {
+        if (task())
+        {
+          return true;
+        }
+
+        Thread.Sleep((int)pause.TotalMilliseconds);
+      }
+      while (stopwatch.Elapsed < timeout);
+      return false;
+    }
+
+    private Func<bool> HasDeterministicResult(Func<INotification, bool> notificationPredicate, Func<int, RepeatMatch> repeatPredicate)
+    {
+      return () => this.HasBeenRecorded(notificationPredicate, repeatPredicate) == RepeatMatch.Satisfied &&
+                   this.HasBeenRecorded(notificationPredicate, repeatPredicate) == RepeatMatch.Unsatisfied;
+    }
+
+    private RepeatMatch HasBeenRecorded(Func<INotification, bool> notificationPredicate, Func<int, RepeatMatch> repeatPredicate)
+    {
+      var matchedNotificationCount = this.notifications.Count(notificationPredicate);
+      System.Diagnostics.Debug.Print(string.Format("Notifications.Count={0}", matchedNotificationCount));
+      return repeatPredicate(matchedNotificationCount);
     }
   }
 }

@@ -18,6 +18,7 @@
       {
         return this.active;
       }
+
       set
       {
         if (this.active != value)
@@ -34,6 +35,7 @@
       {
         return this.path;
       }
+
       set
       {
         if (this.path != value)

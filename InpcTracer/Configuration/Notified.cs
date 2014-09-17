@@ -30,7 +30,7 @@ namespace InpcTracer.Configuration
     {
       get
       {
-        return new RepeatSpecification((actual, expected) => actual == expected, "exactly");
+        return new RepeatSpecification((actual, expected) => actual < expected ? RepeatMatch.UnsatisfiedPending : actual == expected ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied, RepeatMatchType.Exactly);
       }
     }
 
@@ -42,7 +42,7 @@ namespace InpcTracer.Configuration
     {
       get
       {
-        return new RepeatSpecification((actual, expected) => actual >= expected, "at least");
+        return new RepeatSpecification((actual, expected) => actual >= expected ? RepeatMatch.Satisfied : RepeatMatch.UnsatisfiedPending, RepeatMatchType.AtLeast);
       }
     }
 
@@ -54,7 +54,7 @@ namespace InpcTracer.Configuration
     {
       get
       {
-        return new RepeatSpecification((actual, expected) => actual <= expected, "no more than");
+        return new RepeatSpecification((actual, expected) => actual <= expected ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied, RepeatMatchType.NoMoreThan);
       }
     }
 
@@ -66,7 +66,7 @@ namespace InpcTracer.Configuration
     /// a notification must have been made.</param>
     /// <returns>A Repeated-instance.</returns>
     [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is by design when using the Expression-, Action- and Func-types.")]
-    public static Notified Like(Expression<Func<int, bool>> repeatValidation)
+    public static Notified Like(Expression<Func<int, RepeatMatch>> repeatValidation)
     {
       return new ExpressionRepeated(repeatValidation);
     }
@@ -77,14 +77,14 @@ namespace InpcTracer.Configuration
     /// </summary>
     /// <param name="repeat">The repeat of a notification.</param>
     /// <returns>True if the repeat is a match.</returns>
-    internal abstract bool Matches(int repeat);
+    internal abstract RepeatMatch Matches(int repeat);
 
     private class ExpressionRepeated
     : Notified
     {
-      private readonly Expression<Func<int, bool>> repeatValidation;
+      private readonly Expression<Func<int, RepeatMatch>> repeatValidation;
 
-      public ExpressionRepeated(Expression<Func<int, bool>> repeatValidation)
+      public ExpressionRepeated(Expression<Func<int, RepeatMatch>> repeatValidation)
       {
         this.repeatValidation = repeatValidation;
       }
@@ -94,7 +94,7 @@ namespace InpcTracer.Configuration
         return "the number of times specified by the predicate '{0}'".FormatInvariant(this.repeatValidation.ToString());
       }
 
-      internal override bool Matches(int repeat)
+      internal override RepeatMatch Matches(int repeat)
       {
         return this.repeatValidation.Compile().Invoke(repeat);
       }
@@ -103,21 +103,21 @@ namespace InpcTracer.Configuration
     private class RepeatSpecification : IRepeatSpecification
     {
       private readonly RepeatValidator repeatValidator;
-      private readonly string description;
+      private readonly RepeatMatchType repeatMatchType;
 
-      public RepeatSpecification(RepeatValidator repeatValidator, string description)
+      public RepeatSpecification(RepeatValidator repeatValidator, RepeatMatchType repeatMatchType)
       {
         this.repeatValidator = repeatValidator;
-        this.description = description;
+        this.repeatMatchType = repeatMatchType;
       }
 
-      public delegate bool RepeatValidator(int actualRepeat, int expectedRepeat);
+      public delegate RepeatMatch RepeatValidator(int actualRepeat, int expectedRepeat);
 
       public Notified Once
       {
         get
         {
-          return new RepeatedWithDescription(x => this.repeatValidator(x, 1), string.Format("{0} once", this.description));
+          return new RepeatedWithDescription(x => this.repeatValidator(x, 1), string.Format("{0} once", this.repeatMatchType.Description));
         }
       }
 
@@ -125,21 +125,21 @@ namespace InpcTracer.Configuration
       {
         get
         {
-          return new RepeatedWithDescription(x => this.repeatValidator(x, 2), string.Format("{0} twice", this.description));
+          return new RepeatedWithDescription(x => this.repeatValidator(x, 2), string.Format("{0} twice", this.repeatMatchType.Description));
         }
       }
 
       public Notified Times(int numberOfTimes)
       {
-        return new RepeatedWithDescription(x => this.repeatValidator(x, numberOfTimes), "{0} {1} times".FormatInvariant(this.description, numberOfTimes));
+        return new RepeatedWithDescription(x => this.repeatValidator(x, numberOfTimes), "{0} {1} times".FormatInvariant(this.repeatMatchType.Description, numberOfTimes));
       }
 
       private class RepeatedWithDescription : Notified
       {
-        private readonly Func<int, bool> repeatValidator;
+        private readonly Func<int, RepeatMatch> repeatValidator;
         private readonly string description;
 
-        public RepeatedWithDescription(Func<int, bool> repeatValidator, string description)
+        public RepeatedWithDescription(Func<int, RepeatMatch> repeatValidator, string description)
         {
           this.repeatValidator = repeatValidator;
           this.description = description;
@@ -150,7 +150,7 @@ namespace InpcTracer.Configuration
           return this.description;
         }
 
-        internal override bool Matches(int repeat)
+        internal override RepeatMatch Matches(int repeat)
         {
           return this.repeatValidator(repeat);
         }
@@ -164,9 +164,9 @@ namespace InpcTracer.Configuration
         return "never";
       }
 
-      internal override bool Matches(int repeat)
+      internal override RepeatMatch Matches(int repeat)
       {
-        return repeat == 0;
+        return repeat == 0 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied;
       }
     }
   }

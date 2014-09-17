@@ -11,7 +11,7 @@
   [TestClass]
   public class GivenAnIncorrectlyWiredTarget
   {
-    private readonly static IExampleNotifyPropertyChanged target;
+    private static readonly IExampleNotifyPropertyChanged target;
     private static InpcTracer.InpcTracer<IExampleNotifyPropertyChanged> tracer;
 
     static GivenAnIncorrectlyWiredTarget()
@@ -99,7 +99,7 @@
 
       Action b = () => tracer.PropertyChanged(() => target.PropertyB).MustHaveBeen(Notified.Never);
       b.ShouldNotThrow();
-      
+
       tracer.PropertyChanged(() => target.PropertyB).AtLeastOnce().Should().Be(false);
     }
   }

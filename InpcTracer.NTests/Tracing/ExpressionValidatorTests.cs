@@ -51,7 +51,7 @@ Parameter name: expression";
       // Act
       var memberExpression = this.expressionValidator.ValidateAsMember(() => objectWithCountProperty.Count);
 
-      //Assert
+      // Assert
       Assert.That(memberExpression, Is.Not.Null);
       Assert.That(memberExpression.Member.MemberType, Is.EqualTo(MemberTypes.Property));
       Assert.That(memberExpression.Member.Name, Is.EqualTo("Count"));

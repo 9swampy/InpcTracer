@@ -4,6 +4,7 @@
   using System.Collections.Generic;
   using FakeItEasy;
   using FluentAssertions;
+  using InpcTracer.Configuration;
   using InpcTracer.NTests;
   using InpcTracer.NTests.TestHelpers;
   using InpcTracer.Output;
@@ -24,23 +25,23 @@
     }
 
     [Test]
-    public void AssertWasCalledShouldPassWhenTheRepeatPredicateReturnsTrueForTheNumberOfMatchingCalls()
+    public void AssertWasCalledShouldPassWhenTheRepeatPredicateReturnsSatisfiedPendingForTheNumberOfMatchingCalls()
     {
       this.StubCalls(2);
 
       var asserter = this.CreateAsserter();
 
-      asserter.AssertWasRecorded(x => true, string.Empty, x => x == 2, string.Empty);
+      asserter.AssertWasRecorded(x => true, string.Empty, x => x == 2 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied, string.Empty);
     }
 
     [Test]
-    public void AssertWasCalledShouldFailWhenTheRepeatPredicateReturnsFalseForTheNumberOfMatchingCalls()
+    public void AssertWasCalledShouldFailWhenTheRepeatPredicateReturnsUnsatisfiedForTheNumberOfMatchingCalls()
     {
       this.StubCalls(2);
 
       var asserter = this.CreateAsserter();
 
-      Assert.Throws<InpcTracer.Framework.ExpectationException>(() => asserter.AssertWasRecorded(x => true, string.Empty, x => false, string.Empty));
+      Assert.Throws<InpcTracer.Framework.ExpectationException>(() => asserter.AssertWasRecorded(x => true, string.Empty, x => RepeatMatch.Unsatisfied, string.Empty));
     }
 
     [Test]
@@ -52,7 +53,7 @@
 
       var asserter = this.CreateAsserter();
 
-      asserter.AssertWasRecorded(x => this.calls.IndexOf(x) == 0, string.Empty, x => { numberPassedToRepeatPredicate = x; return true; }, string.Empty);
+      asserter.AssertWasRecorded(x => this.calls.IndexOf(x) == 0, string.Empty, x => { numberPassedToRepeatPredicate = x; return RepeatMatch.SatisfiedPending; }, string.Empty);
 
       Assert.That(numberPassedToRepeatPredicate, Is.EqualTo(1));
     }
@@ -63,7 +64,7 @@
       var asserter = this.CreateAsserter();
 
       var message = this.GetExceptionMessage(() =>
-          asserter.AssertWasRecorded(x => true, @"IFoo.Bar(1)", x => false, string.Empty));
+          asserter.AssertWasRecorded(x => true, @"IFoo.Bar(1)", x => RepeatMatch.Unsatisfied, string.Empty));
       var expectedMessage =
 @"
 
@@ -81,7 +82,7 @@
       var asserter = this.CreateAsserter();
 
       var message = this.GetExceptionMessage(() =>
-          asserter.AssertWasRecorded(x => false, string.Empty, x => x == 2, "#2 times"));
+          asserter.AssertWasRecorded(x => false, string.Empty, x => x == 2 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied, "#2 times"));
 
       var expectedMessage =
 @"
@@ -97,7 +98,7 @@
 
       var asserter = this.CreateAsserter();
 
-      this.GetExceptionMessage(() => asserter.AssertWasRecorded(x => false, string.Empty, x => false, string.Empty));
+      this.GetExceptionMessage(() => asserter.AssertWasRecorded(x => false, string.Empty, x => RepeatMatch.Unsatisfied, string.Empty));
 
       A.CallTo(() => this.callWriter.WriteNotifications(A<IEnumerable<INotification>>.That.IsThisSequence(this.calls), A<InpcTracer.Output.IOutputWriter>._)).MustHaveHappened();
     }
@@ -110,7 +111,7 @@
       var asserter = this.CreateAsserter();
 
       var message = this.GetExceptionMessage(() =>
-          asserter.AssertWasRecorded(x => false, string.Empty, x => x == 2, "#2 times"));
+          asserter.AssertWasRecorded(x => false, string.Empty, x => x == 2 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied, "#2 times"));
 
       var expectedMessage =
 @"
@@ -125,7 +126,7 @@
       var asserter = this.CreateAsserter();
 
       var message = this.GetExceptionMessage(() =>
-          asserter.AssertWasRecorded(x => false, string.Empty, x => false, string.Empty));
+          asserter.AssertWasRecorded(x => false, string.Empty, x => RepeatMatch.Unsatisfied, string.Empty));
 
       Assert.That(message, Is.StringEnding(string.Concat(Environment.NewLine, Environment.NewLine)));
     }
@@ -136,7 +137,7 @@
       var asserter = this.CreateAsserter();
 
       var message = this.GetExceptionMessage(() =>
-          asserter.AssertWasRecorded(x => false, string.Empty, x => false, string.Empty));
+          asserter.AssertWasRecorded(x => false, string.Empty, x => RepeatMatch.Unsatisfied, string.Empty));
 
       Assert.That(message, Is.StringStarting(Environment.NewLine));
     }

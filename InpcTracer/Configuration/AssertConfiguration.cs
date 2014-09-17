@@ -11,6 +11,7 @@ namespace InpcTracer.Configuration
   {
     private readonly IList<INotification> recordedNotifications;
     private readonly string memberExpression;
+    private readonly int timeout;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="AssertConfiguration" /> class.    
@@ -18,7 +19,19 @@ namespace InpcTracer.Configuration
     /// <param name="recordedNotifications">Collection of notifications recorded.</param>
     /// <param name="memberExpression">The MemberExpression that produces the relevant property.</param>
     public AssertConfiguration(IList<INotification> recordedNotifications, string memberExpression)
+      : this(recordedNotifications, memberExpression, 0)
     {
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="AssertConfiguration" /> class.    
+    /// </summary>
+    /// <param name="recordedNotifications">Collection of notifications recorded.</param>
+    /// <param name="memberExpression">The MemberExpression that produces the relevant property.</param>
+    /// <param name="timeout">Maximum milliseconds to wait for events to occur.</param>
+    public AssertConfiguration(IList<INotification> recordedNotifications, string memberExpression, int timeout)
+    {
+      this.timeout = timeout;
       this.recordedNotifications = recordedNotifications;
       this.memberExpression = memberExpression;
     }
@@ -63,7 +76,7 @@ namespace InpcTracer.Configuration
     public void MustHaveBeen(Notified repeatConstraint)
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      recordedNotificationAsserter.AssertWasRecorded(o => o.PropertyName == this.memberExpression, this.memberExpression, x => repeatConstraint.Matches(x), repeatConstraint.ToString());
+      recordedNotificationAsserter.AssertWasRecorded(o => o.PropertyName == this.memberExpression, this.memberExpression, x => repeatConstraint.Matches(x), repeatConstraint.ToString(), this.timeout);
     }
   }
 }

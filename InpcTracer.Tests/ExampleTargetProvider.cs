@@ -1,7 +1,7 @@
 namespace InpcTracer.Tests
 {
-  using FakeItEasy;
   using System.ComponentModel;
+  using FakeItEasy;
 
   public class ExampleTargetProvider
   {

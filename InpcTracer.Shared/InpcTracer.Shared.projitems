@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ab428e05-aa6d-4675-9370-ef3259c25f7b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>InpcTracer</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatchType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatchExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\IMonitoredEvent.cs" />
+  </ItemGroup>
+</Project>

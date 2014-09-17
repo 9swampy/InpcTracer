@@ -1,8 +1,8 @@
 ﻿namespace InpcTracer.NTests.TestHelpers
 {
-  using InpcTracer.Framework;
   using System;
   using System.Diagnostics.CodeAnalysis;
+  using InpcTracer.Framework;
 
   /// <summary>
   /// Records actions for a test.
