@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>InpcTracer</id>
-    <version>0.2.0-beta</version>
+    <version>0.3.0-beta</version>
     <title>InpcTracer</title>
     <authors>InpcTracer contributors</authors>
     <owners>9swampy</owners>
@@ -13,8 +13,7 @@
     <description>A fluent interface for unit testing INotifyPropertyChanged events</description>
     <releaseNotes>
       Beta release. 
-      Breaking change from RecordedEvent.MustHaveHappened to PropertyChanged.MustHaveBeen.Notified.
-      Add EventMonitor.
+      Added Timeout functionality to EventMonitor.
     </releaseNotes>
     <copyright>Copyright (c) 9swampy, InpcTracer contributors</copyright>
     <tags>INPC INotifyPropertyChanged fluent ViewModel unit testing tests MVVM TDD</tags>
