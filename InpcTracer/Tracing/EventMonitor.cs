@@ -11,6 +11,7 @@
   /// <typeparam name="T">Type of the monitored object.</typeparam>
   public class EventMonitor<T>
   {
+    private static volatile object recordedEventListSynchLock = new object();
     private readonly IList<INotification> recordedEventList = new List<INotification>();
 
     private readonly T monitoredObject;
@@ -30,7 +31,10 @@
     /// </summary>
     public void Reset()
     {
-      this.recordedEventList.Clear();
+      lock (recordedEventListSynchLock)
+      {
+        this.recordedEventList.Clear();
+      }
     }
 
     /// <summary>
@@ -84,7 +88,10 @@
         {
           Action<object, EventArgs> handler = (s, e) =>
           {
-            this.recordedEventList.Add(new MonitoredEvent(eventInfo.Name, e));
+            lock (recordedEventListSynchLock)
+            {
+              this.recordedEventList.Add(new MonitoredEvent(eventInfo.Name, e));
+            }
           };
           Delegate convertedHandler = ConvertDelegate(handler, eventInfo.EventHandlerType);
           eventInfo.AddEventHandler(this.monitoredObject, convertedHandler);
