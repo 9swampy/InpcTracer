@@ -94,6 +94,14 @@ namespace InpcTracer
       return result;
     }
 
+    /// <summary>
+    /// Clears any PropertyChanged history already recorded by the <see cref="InpcTracer{TNotifyPropertyChanged}" />
+    /// </summary>
+    public void Clear()
+    {
+      this.recordedEventList.Clear();
+    }
+
     private void Detach()
     {
       if (this.notifier != null)
@@ -109,12 +117,7 @@ namespace InpcTracer
         this.notifier.PropertyChanged += this.NotifierOnPropertyChanged;
       }
     }
-
-    private void Clear()
-    {
-      this.recordedEventList.Clear();
-    }
-
+    
     private void NotifierOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
     {
       this.recordedEventList.Add(new Notification(propertyChangedEventArgs.PropertyName));

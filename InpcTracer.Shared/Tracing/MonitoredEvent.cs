@@ -5,7 +5,7 @@ namespace InpcTracer.Tracing
   /// <summary>
   /// Records monitored events.
   /// </summary>
-  public class MonitoredEvent : IMonitoredEvent
+  public class MonitoredEvent : Notification, IMonitoredEvent
   {
     /// <summary>
     /// Initialises a new instance of the <see cref="MonitoredEvent" /> class.
@@ -13,15 +13,10 @@ namespace InpcTracer.Tracing
     /// <param name="name">Name of the event member.</param>
     /// <param name="eventArgs">EventArgs passed by the event.</param>
     public MonitoredEvent(string name, EventArgs eventArgs)
+      : base(name)
     {
-      this.PropertyName = name;
       this.EventArgs = eventArgs;
     }
-
-    /// <summary>
-    /// Gets the name of the event member.
-    /// </summary>
-    public string PropertyName { get; private set; }
 
     /// <summary>
     /// Gets the eventArgs passed by the event.

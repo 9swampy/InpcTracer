@@ -73,9 +73,6 @@
     <Compile Include="..\InpcTracer\Framework\StringExtensions.cs">
       <Link>Framework\StringExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\InpcTracer\InpcTracer.cs">
-      <Link>InpcTracer.cs</Link>
-    </Compile>
     <Compile Include="..\InpcTracer\Output\DefaultOutputWriter.cs">
       <Link>Output\DefaultOutputWriter.cs</Link>
     </Compile>

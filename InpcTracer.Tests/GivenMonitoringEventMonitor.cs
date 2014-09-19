@@ -11,14 +11,14 @@
     [Fake]
     private INotifyPropertyChanged target;
 
-    private InpcTracer.Tracing.EventMonitor<INotifyPropertyChanged> eventMonitor;
+    private InpcTracer.EventMonitor<INotifyPropertyChanged> eventMonitor;
 
     [TestInitialize]
     public void TestInitialise()
     {
       Fake.InitializeFixture(this);
 
-      this.eventMonitor = new Tracing.EventMonitor<INotifyPropertyChanged>(this.target);
+      this.eventMonitor = new EventMonitor<INotifyPropertyChanged>(this.target);
     }
 
     [TestMethod]

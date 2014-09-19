@@ -9,9 +9,12 @@
     <Import_RootNamespace>InpcTracer</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)EventMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InpcTracer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatchType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatchExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tracing\IMonitoredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\MonitoredEvent.cs" />
   </ItemGroup>
 </Project>

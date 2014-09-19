@@ -26,5 +26,15 @@ namespace InpcTracer.Tracing
       get;
       private set;
     }
+    
+    /// <summary>
+    /// Centralised equivalency check.
+    /// </summary>
+    /// <param name="memberExpression">Expression identifying the name of the member to check for.</param>
+    /// <returns>True if the name matches.</returns>
+    public bool MemberNameMatches(string memberExpression)
+    {
+      return string.Equals(this.PropertyName, memberExpression, System.StringComparison.OrdinalIgnoreCase);
+    }
   }
 }

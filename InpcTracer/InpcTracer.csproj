@@ -62,8 +62,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Output\TimeoutExtendedBoolResult.cs" />
-    <Compile Include="Tracing\MonitoredEvent.cs" />
-    <Compile Include="Tracing\EventMonitor.cs" />
     <Compile Include="Tracing\Notification.cs" />
     <Compile Include="Output\StringBuilderOutputWriter.cs" />
     <Compile Include="Output\DefaultOutputWriter.cs" />
@@ -79,7 +77,6 @@
     <Compile Include="Framework\StringExtensions.cs" />
     <Compile Include="Tracing\ExpressionValidator.cs" />
     <Compile Include="Tracing\IExpressionValidator.cs" />
-    <Compile Include="InpcTracer.cs" />
     <Compile Include="Configuration\IOrderedAssertConfiguration.cs" />
     <Compile Include="Tracing\NotificationComparer.cs" />
     <Compile Include="Output\NotificationFormatter.cs" />

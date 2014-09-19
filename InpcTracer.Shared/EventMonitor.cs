@@ -1,9 +1,11 @@
-﻿namespace InpcTracer.Tracing
+﻿namespace InpcTracer
 {
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using System.Reflection;
   using InpcTracer.Configuration;
+  using InpcTracer.Tracing;
 
   /// <summary>
   /// Records events raised by the monitored object.
@@ -11,6 +13,8 @@
   /// <typeparam name="T">Type of the monitored object.</typeparam>
   public class EventMonitor<T>
   {
+    private const BindingFlags RelevantBindingFlags = BindingFlags.FlattenHierarchy | BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
     private static volatile object recordedEventListSynchLock = new object();
     private readonly IList<INotification> recordedEventList = new List<INotification>();
 
@@ -55,7 +59,7 @@
     /// <returns>Assert configuration for the specified event.</returns>
     public IAssertConfiguration Event(string eventName, int timeout)
     {
-      if (this.monitoredObject.GetType().GetEvents().Any(o => o.Name == eventName))
+      if (this.monitoredObject.GetType().GetEvents(RelevantBindingFlags).Any(o => string.Equals(o.Name, eventName, StringComparison.OrdinalIgnoreCase)))
       {
         return new AssertConfiguration(this.recordedEventList, eventName, timeout);
       }
@@ -84,7 +88,7 @@
     {
       if (this.monitoredObject != null)
       {
-        foreach (var eventInfo in this.monitoredObject.GetType().GetEvents())
+        foreach (var eventInfo in this.monitoredObject.GetType().GetEvents(RelevantBindingFlags))
         {
           Action<object, EventArgs> handler = (s, e) =>
           {
@@ -94,7 +98,8 @@
             }
           };
           Delegate convertedHandler = ConvertDelegate(handler, eventInfo.EventHandlerType);
-          eventInfo.AddEventHandler(this.monitoredObject, convertedHandler);
+          var addMethod = eventInfo.GetAddMethod(true);
+          addMethod.Invoke(this.monitoredObject, new[] { convertedHandler });
         }
       }
     }

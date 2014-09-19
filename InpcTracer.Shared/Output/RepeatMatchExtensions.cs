@@ -2,7 +2,7 @@ namespace InpcTracer.Configuration
 {
   using InpcTracer.Output;
 
-  internal static class RepeatMetchExtensions
+  internal static class RepeatMatchExtensions
   {
     internal static TimeoutExtendedBoolResult ToTimeoutExtendedBoolResult(this RepeatMatch repeatMatch, int timeout)
     {

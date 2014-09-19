@@ -52,7 +52,7 @@ namespace InpcTracer.Configuration
         throw new ArgumentException(string.Format("Expected event '{0}' but no more events left", this.memberExpression));
       }
 
-      if (this.recordedNotifications[this.index].PropertyName != this.memberExpression)
+      if (!this.recordedNotifications[this.index].MemberNameMatches(this.memberExpression))
       {
         throw new ArgumentException(string.Format("Event {0} was not at position {1}", this.memberExpression, this.index));
       }

@@ -43,7 +43,7 @@ namespace InpcTracer.Configuration
     public bool ExactlyOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      return recordedNotificationAsserter.WasRecorded(o => o.PropertyName == this.memberExpression, x => Notified.Exactly.Once.Matches(x));
+      return recordedNotificationAsserter.WasRecorded(o => o.MemberNameMatches(this.memberExpression), x => Notified.Exactly.Once.Matches(x));
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ namespace InpcTracer.Configuration
     public bool AtLeastOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      return recordedNotificationAsserter.WasRecorded(o => o.PropertyName == this.memberExpression, x => Notified.AtLeast.Once.Matches(x));
+      return recordedNotificationAsserter.WasRecorded(o => o.MemberNameMatches(this.memberExpression), x => Notified.AtLeast.Once.Matches(x));
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ namespace InpcTracer.Configuration
     public void MustHaveBeen(Notified repeatConstraint)
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      recordedNotificationAsserter.AssertWasRecorded(o => o.PropertyName == this.memberExpression, this.memberExpression, x => repeatConstraint.Matches(x), repeatConstraint.ToString(), this.timeout);
+      recordedNotificationAsserter.AssertWasRecorded(o => o.MemberNameMatches(this.memberExpression), this.memberExpression, x => repeatConstraint.Matches(x), repeatConstraint.ToString(), this.timeout);
     }
   }
 }

@@ -68,6 +68,7 @@
     <Compile Include="ExampleTargetProvider.cs" />
     <Compile Include="GivenAnIncorrectlyWiredTarget.cs" />
     <Compile Include="GivenAnExpressionValidator.cs" />
+    <Compile Include="GivenEventMonitor.cs" />
     <Compile Include="IExampleNotifyPropertyChanged.cs" />
     <Compile Include="GivenACorrectlyWiredTarget.cs" />
     <Compile Include="Project.cs" />
