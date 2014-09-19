@@ -55,9 +55,6 @@
     <Compile Include="..\InpcTracer\Configuration\IRepeatSpecification.cs">
       <Link>Configuration\IRepeatSpecification.cs</Link>
     </Compile>
-    <Compile Include="..\InpcTracer\Configuration\Notified.cs">
-      <Link>Configuration\Notified.cs</Link>
-    </Compile>
     <Compile Include="..\InpcTracer\Configuration\OrderedAssertConfiguration.cs">
       <Link>Configuration\OrderedAssertConfiguration.cs</Link>
     </Compile>

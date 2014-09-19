@@ -20,7 +20,7 @@
     /// must have happened.</param>
     /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called a number of times
     /// that passes the repeat constraint.</exception>
-    void MustHaveBeen(Notified repeatConstraint);
+    void MustHaveBeen(Raised repeatConstraint);
 
     /// <summary>
     /// Whether the notification has occurred exactly once.

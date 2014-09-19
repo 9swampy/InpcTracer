@@ -11,18 +11,18 @@ namespace InpcTracer.Configuration
     /// <summary>
     /// Specifies once as the repeat.
     /// </summary>
-    Notified Once { get; }
+    Raised Once { get; }
 
     /// <summary>
     /// Specifies twice as the repeat.
     /// </summary>
-    Notified Twice { get; }
+    Raised Twice { get; }
 
     /// <summary>
     /// Specifies the number of times as repeat.
     /// </summary>
     /// <param name="numberOfTimes">The number of times expected.</param>
     /// <returns>A Repeated instance.</returns>
-    Notified Times(int numberOfTimes);
+    Raised Times(int numberOfTimes);
   }
 }

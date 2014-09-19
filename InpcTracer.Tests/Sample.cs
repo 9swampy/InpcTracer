@@ -29,7 +29,7 @@ namespace InpcTracer.Tests
       Assert.IsTrue(tracer.WhileProcessing(() => target.Active = true).PropertyChanged(() => target.Active).ExactlyOnce());
 
       // or
-      tracer.WhileProcessing(() => target.Active = true).PropertyChanged(() => target.Active).MustHaveBeen(Notified.Exactly.Once);
+      tracer.WhileProcessing(() => target.Active = true).PropertyChanged(() => target.Active).MustHaveBeen(Raised.Exactly.Once);
 
       // Check for exact order of two events
       tracer.WhileProcessing(() =>

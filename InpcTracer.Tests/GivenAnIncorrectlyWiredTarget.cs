@@ -94,10 +94,10 @@
     {
       target.PropertyB = true;
 
-      Action a = () => tracer.PropertyChanged(() => target.PropertyA).MustHaveBeen(Notified.Never);
+      Action a = () => tracer.PropertyChanged(() => target.PropertyA).MustHaveBeen(Raised.Never);
       a.ShouldNotThrow();
 
-      Action b = () => tracer.PropertyChanged(() => target.PropertyB).MustHaveBeen(Notified.Never);
+      Action b = () => tracer.PropertyChanged(() => target.PropertyB).MustHaveBeen(Raised.Never);
       b.ShouldNotThrow();
 
       tracer.PropertyChanged(() => target.PropertyB).AtLeastOnce().Should().Be(false);

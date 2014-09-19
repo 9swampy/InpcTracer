@@ -42,14 +42,14 @@
     { 
       target.PropertyA = "set";
       await Task.Delay(timeout);
-      eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Once);
+      eventMonitor.Event("PropertyChanged").MustHaveBeen(Raised.Exactly.Once);
     }
 
     [TestMethod]
     public void WhenEventRaisedOnceWithinTimeoutThenEventShouldBeMonitoredExactlyOnce()
     {
       target.PropertyA = "set";
-      eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Notified.Exactly.Once);
+      eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Raised.Exactly.Once);
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@
       target.PropertyA = "set";
       target.PropertyA = "set";
       await Task.Delay(timeout);
-      eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Twice);
+      eventMonitor.Event("PropertyChanged").MustHaveBeen(Raised.Exactly.Twice);
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@
     {
       target.PropertyA = "set";
       target.PropertyA = "set";
-      eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Notified.Exactly.Twice);
+      eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Raised.Exactly.Twice);
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@
       target.PropertyA = "set";
       await Task.Delay(timeout);
       
-      Action act = () => eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Once);
+      Action act = () => eventMonitor.Event("PropertyChanged").MustHaveBeen(Raised.Exactly.Once);
 
       act.ShouldThrow<InpcTracer.Framework.ExpectationException>().And.Message.Should().Contain("PropertyChanged repeated 2 times");
     }
@@ -87,7 +87,7 @@
       target.PropertyA = "set";
       target.PropertyA = "set";
 
-      Action act = () => eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Notified.Exactly.Once);
+      Action act = () => eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Raised.Exactly.Once);
 
       act.ShouldThrow<InpcTracer.Framework.ExpectationException>().And.Message.Should().Contain("PropertyChanged repeated 2 times");
     }
@@ -99,7 +99,7 @@
       target.PropertyA = "set";
       await Task.Delay(timeout);
 
-      Action act = () => eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.AtLeast.Once);
+      Action act = () => eventMonitor.Event("PropertyChanged").MustHaveBeen(Raised.AtLeast.Once);
 
       act.ShouldNotThrow<InpcTracer.Framework.ExpectationException>();
     }
@@ -110,7 +110,7 @@
       target.PropertyA = "set";
       target.PropertyA = "set";
 
-      Action act = () => eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Notified.AtLeast.Once);
+      Action act = () => eventMonitor.Event("PropertyChanged", timeout).MustHaveBeen(Raised.AtLeast.Once);
 
       act.ShouldNotThrow<InpcTracer.Framework.ExpectationException>();
     }

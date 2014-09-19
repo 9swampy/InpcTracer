@@ -25,7 +25,7 @@
     public void WhenEventRaisedOnceThenItShouldBeRecordedOnce()
     {
       this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
-      this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Once);
+      this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Raised.Exactly.Once);
     }
 
     [TestMethod]
@@ -33,7 +33,7 @@
     {
       this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
       this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
-      this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Notified.Exactly.Twice);
+      this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Raised.Exactly.Twice);
     }
   }
 }

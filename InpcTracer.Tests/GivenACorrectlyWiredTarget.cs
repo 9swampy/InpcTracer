@@ -27,7 +27,7 @@
     [TestMethod]
     public void WhenNoPropertyChangedThenHasRecordedEventShouldRaiseAnError()
     {
-      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.Exactly.Once);
+      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Exactly.Once);
       a.ShouldThrow<InpcTracer.Framework.ExpectationException>();
     }
 
@@ -36,11 +36,11 @@
     {
       Target.PropertyA = true;
       tracer.PropertyChanged(() => Target.PropertyA).MustHaveOccurred();
-      tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.Exactly.Once);
+      tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Exactly.Once);
       Action a = () => tracer.PropertyChanged(() => Target.PropertyA);
       a.ShouldNotThrow();
       tracer.PropertyChanged(() => Target.PropertyA).ExactlyOnce().Should().Be(true);
-      Action b = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.Like(o => o == 1 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied));
+      Action b = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Like(o => o == 1 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied));
       b.ShouldNotThrow();
     }
 
@@ -98,9 +98,9 @@
       Target.PropertyA = true;
       Target.PropertyB = true;
 
-      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.AtLeast.Twice);
+      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.AtLeast.Twice);
       a.ShouldThrow<ExpectationException>();
-      Action b = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.Exactly.Twice);
+      Action b = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Exactly.Twice);
       b.ShouldThrow<ExpectationException>();
     }
 
@@ -108,7 +108,7 @@
     public void WhenPropertyChangedThenHasNotRecordedEventShouldThrow()
     {
       Target.PropertyA = true;
-      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.Never);
+      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Never);
       a.ShouldThrow<ExpectationException>();
     }
 
@@ -116,7 +116,7 @@
     public void WhenPropertyChangedThenHasNotRecordedEventShouldValidate()
     {
       Target.PropertyA = true;
-      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.Never);
+      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Never);
       a.ShouldThrow<ExpectationException>();
     }
 
@@ -125,10 +125,10 @@
     {
       Target.PropertyB = true;
 
-      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Notified.Never);
+      Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Never);
       a.ShouldNotThrow();
 
-      Action b = () => tracer.PropertyChanged(() => Target.PropertyB).MustHaveBeen(Notified.Never);
+      Action b = () => tracer.PropertyChanged(() => Target.PropertyB).MustHaveBeen(Raised.Never);
       b.ShouldThrow<ExpectationException>();
 
       tracer.PropertyChanged(() => Target.PropertyB).AtLeastOnce().Should().Be(true);

@@ -1,21 +1,22 @@
-namespace InpcTracer.Configuration
+namespace InpcTracer
 {
   using System;
   using System.Diagnostics.CodeAnalysis;
   using System.Linq.Expressions;
   using Framework;
+  using InpcTracer.Configuration;
 
   /// <summary>
   /// Provides syntax for specifying the number of times a notification must have been repeated.
   /// </summary>
   /// <example><code>A.CallTo(() => foo.Bar()).Assert(Happened.Once.Exactly);</code></example>
   [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:PropertySummaryDocumentationMustMatchAccessors", Justification = "Fluent API.")]
-  public abstract class Notified
+  public abstract class Raised
   {
     /// <summary>
     /// Asserts that a notification has not happened at all.
     /// </summary>
-    public static Notified Never
+    public static Raised Never
     {
       get
       {
@@ -66,7 +67,7 @@ namespace InpcTracer.Configuration
     /// a notification must have been made.</param>
     /// <returns>A Repeated-instance.</returns>
     [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is by design when using the Expression-, Action- and Func-types.")]
-    public static Notified Like(Expression<Func<int, RepeatMatch>> repeatValidation)
+    public static Raised Like(Expression<Func<int, RepeatMatch>> repeatValidation)
     {
       return new ExpressionRepeated(repeatValidation);
     }
@@ -80,7 +81,7 @@ namespace InpcTracer.Configuration
     internal abstract RepeatMatch Matches(int repeat);
 
     private class ExpressionRepeated
-    : Notified
+    : Raised
     {
       private readonly Expression<Func<int, RepeatMatch>> repeatValidation;
 
@@ -113,7 +114,7 @@ namespace InpcTracer.Configuration
 
       public delegate RepeatMatch RepeatValidator(int actualRepeat, int expectedRepeat);
 
-      public Notified Once
+      public Raised Once
       {
         get
         {
@@ -121,7 +122,7 @@ namespace InpcTracer.Configuration
         }
       }
 
-      public Notified Twice
+      public Raised Twice
       {
         get
         {
@@ -129,12 +130,12 @@ namespace InpcTracer.Configuration
         }
       }
 
-      public Notified Times(int numberOfTimes)
+      public Raised Times(int numberOfTimes)
       {
         return new RepeatedWithDescription(x => this.repeatValidator(x, numberOfTimes), "{0} {1} times".FormatInvariant(this.repeatMatchType.Description, numberOfTimes));
       }
 
-      private class RepeatedWithDescription : Notified
+      private class RepeatedWithDescription : Raised
       {
         private readonly Func<int, RepeatMatch> repeatValidator;
         private readonly string description;
@@ -157,7 +158,7 @@ namespace InpcTracer.Configuration
       }
     }
 
-    private class NeverRepeated : Notified
+    private class NeverRepeated : Raised
     {
       public override string ToString()
       {

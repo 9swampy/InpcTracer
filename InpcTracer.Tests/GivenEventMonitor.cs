@@ -31,7 +31,7 @@
       {
         EventMonitor<ObservableCollection<int>> sut = new EventMonitor<ObservableCollection<int>>(observableTarget);
         observableTarget.Add(1);
-        sut.Event("CollectionChanged").MustHaveBeen(Notified.Exactly.Once);
+        sut.Event("CollectionChanged").MustHaveBeen(Raised.Exactly.Once);
       }
     }
 
@@ -51,7 +51,7 @@
       public void HiddenEventsShouldBeMonitored()
       {
         observableTarget.Add(1);
-        sut.Event("CollectionChanged").MustHaveBeen(Notified.Exactly.Once);
+        sut.Event("CollectionChanged").MustHaveBeen(Raised.Exactly.Once);
       }
 
       [TestMethod]

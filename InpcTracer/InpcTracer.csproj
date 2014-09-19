@@ -73,7 +73,6 @@
     <Compile Include="Configuration\IAssertConfiguration.cs" />
     <Compile Include="Configuration\IHideObjectMembers.cs" />
     <Compile Include="Configuration\IRepeatSpecification.cs" />
-    <Compile Include="Configuration\Notified.cs" />
     <Compile Include="Framework\StringExtensions.cs" />
     <Compile Include="Tracing\ExpressionValidator.cs" />
     <Compile Include="Tracing\IExpressionValidator.cs" />

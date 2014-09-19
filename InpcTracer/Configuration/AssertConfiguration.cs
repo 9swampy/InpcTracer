@@ -43,7 +43,7 @@ namespace InpcTracer.Configuration
     public bool ExactlyOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      return recordedNotificationAsserter.WasRecorded(o => o.MemberNameMatches(this.memberExpression), x => Notified.Exactly.Once.Matches(x));
+      return recordedNotificationAsserter.WasRecorded(o => o.MemberNameMatches(this.memberExpression), x => Raised.Exactly.Once.Matches(x));
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ namespace InpcTracer.Configuration
     public bool AtLeastOnce()
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
-      return recordedNotificationAsserter.WasRecorded(o => o.MemberNameMatches(this.memberExpression), x => Notified.AtLeast.Once.Matches(x));
+      return recordedNotificationAsserter.WasRecorded(o => o.MemberNameMatches(this.memberExpression), x => Raised.AtLeast.Once.Matches(x));
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ namespace InpcTracer.Configuration
     /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called even once.</exception>
     public void MustHaveOccurred()
     {
-      this.MustHaveBeen(Notified.AtLeast.Once);
+      this.MustHaveBeen(Raised.AtLeast.Once);
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ namespace InpcTracer.Configuration
     /// must have happened.</param>
     /// <exception cref="InpcTracer.Framework.ExpectationException">The notification has not been called a number of times
     /// that passes the repeat constraint.</exception>
-    public void MustHaveBeen(Notified repeatConstraint)
+    public void MustHaveBeen(Raised repeatConstraint)
     {
       RecordedNotificationAsserter recordedNotificationAsserter = new RecordedNotificationAsserter(this.recordedNotifications, new NotificationWriter(new NotificationFormatter(), new NotificationComparer()));
       recordedNotificationAsserter.AssertWasRecorded(o => o.MemberNameMatches(this.memberExpression), this.memberExpression, x => repeatConstraint.Matches(x), repeatConstraint.ToString(), this.timeout);

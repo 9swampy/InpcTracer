@@ -14,57 +14,57 @@
     private object[] descriptionTestCases = TestCases.Create(
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.AtLeast.Once,
+          Repeat = () => Raised.AtLeast.Once,
           ExpectedDescription = "at least once"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.AtLeast.Twice,
+          Repeat = () => Raised.AtLeast.Twice,
           ExpectedDescription = "at least twice"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.AtLeast.Times(3),
+          Repeat = () => Raised.AtLeast.Times(3),
           ExpectedDescription = "at least 3 times"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.AtLeast.Times(10),
+          Repeat = () => Raised.AtLeast.Times(10),
           ExpectedDescription = "at least 10 times"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.AtLeast.Times(10),
+          Repeat = () => Raised.AtLeast.Times(10),
           ExpectedDescription = "at least 10 times"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.NoMoreThan.Once,
+          Repeat = () => Raised.NoMoreThan.Once,
           ExpectedDescription = "no more than once"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.NoMoreThan.Twice,
+          Repeat = () => Raised.NoMoreThan.Twice,
           ExpectedDescription = "no more than twice"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.NoMoreThan.Times(10),
+          Repeat = () => Raised.NoMoreThan.Times(10),
           ExpectedDescription = "no more than 10 times"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.Exactly.Once,
+          Repeat = () => Raised.Exactly.Once,
           ExpectedDescription = "exactly once"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.Exactly.Twice,
+          Repeat = () => Raised.Exactly.Twice,
           ExpectedDescription = "exactly twice"
         },
         new RepeatDescriptionTestCase()
         {
-          Repeat = () => Notified.Exactly.Times(99),
+          Repeat = () => Raised.Exactly.Times(99),
           ExpectedDescription = "exactly 99 times"
         }).AsTestCaseSource();
 
@@ -76,7 +76,7 @@
       Expression<Func<int, RepeatMatch>> repeatPredicate = repeat => repeat == expected ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied;
 
       // Act
-      var happened = Notified.Like(repeatPredicate);
+      var happened = Raised.Like(repeatPredicate);
 
       // Assert
       return happened.Matches(actual);
@@ -89,7 +89,7 @@
       Expression<Func<int, RepeatMatch>> repeatPredicate = repeat => repeat == 1 ? RepeatMatch.SatisfiedPending : RepeatMatch.Unsatisfied;
 
       // Act
-      var happened = Notified.Like(repeatPredicate);
+      var happened = Raised.Like(repeatPredicate);
 
       // Assert
       Assert.That(happened.ToString(), Is.EqualTo("the number of times specified by the predicate 'repeat => IIF((repeat == 1), SatisfiedPending, Unsatisfied)'"));
@@ -103,7 +103,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.Exactly.Once;
+      var repeated = Raised.Exactly.Once;
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -117,7 +117,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.Exactly.Twice;
+      var repeated = Raised.Exactly.Twice;
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -130,7 +130,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.Exactly.Times(expectedNumberOfTimes);
+      var repeated = Raised.Exactly.Times(expectedNumberOfTimes);
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -144,7 +144,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.AtLeast.Once;
+      var repeated = Raised.AtLeast.Once;
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -159,7 +159,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.AtLeast.Twice;
+      var repeated = Raised.AtLeast.Twice;
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -175,7 +175,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.AtLeast.Times(expectedNumberOfTimes);
+      var repeated = Raised.AtLeast.Times(expectedNumberOfTimes);
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -189,7 +189,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.NoMoreThan.Once;
+      var repeated = Raised.NoMoreThan.Once;
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -204,7 +204,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.NoMoreThan.Twice;
+      var repeated = Raised.NoMoreThan.Twice;
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -220,7 +220,7 @@
       // Arrange
 
       // Act
-      var repeated = Notified.NoMoreThan.Times(expectedNumberOfTimes);
+      var repeated = Raised.NoMoreThan.Times(expectedNumberOfTimes);
 
       // Assert
       return repeated.Matches(actualRepeat);
@@ -235,11 +235,11 @@
       // Act
 
       // Assert
-      return Notified.Never.Matches(actualRepeat);
+      return Raised.Never.Matches(actualRepeat);
     }
 
     [TestCaseSource("descriptionTestCases")]
-    public void ShouldProvideExpectedDescription(Func<Notified> repeated, string expectedDescription)
+    public void ShouldProvideExpectedDescription(Func<Raised> repeated, string expectedDescription)
     {
       Guard.AgainstNull(repeated, "repeated");
 
@@ -256,7 +256,7 @@
     private class RepeatDescriptionTestCase
     {
       [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used reflectively.")]
-      public Func<Notified> Repeat { get; set; }
+      public Func<Raised> Repeat { get; set; }
 
       [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used reflectively.")]
       public string ExpectedDescription { get; set; }
