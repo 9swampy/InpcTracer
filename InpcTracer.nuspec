@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>InpcTracer</id>
-    <version>0.4.0-beta</version>
+    <version>0.5.0-beta</version>
     <title>InpcTracer</title>
     <authors>InpcTracer contributors</authors>
     <owners>9swampy</owners>
