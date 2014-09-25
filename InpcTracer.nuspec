@@ -13,8 +13,7 @@
     <description>A fluent interface for unit testing INotifyPropertyChanged events</description>
     <releaseNotes>
       Beta release.
-      - Extend EventMonitor functionality to properly handle binding of non-public events.
-      - Expose InpcTracer.Clear to better facilitate reuse.
+      - Change Notified to Raised.
     </releaseNotes>
     <copyright>Copyright (c) 9swampy, InpcTracer contributors</copyright>
     <tags>INPC INotifyPropertyChanged async Event fluent ViewModel unit testing tests MVVM TDD</tags>
