@@ -88,26 +88,37 @@
       }
     }
 
+    /// <summary>
+    /// Stateful proxy that is bound to events to record when they are raised. 8.1 doesn't expose Delegate.Create used elsewhere.
+    /// </summary>
     public class EventRecorder
     {
       private readonly string eventName;
       private readonly IList<INotification> recordedEventList;
 
+      /// <summary>
+      /// Initialises a new instance of the <see cref="EventRecorder"/> class.
+      /// </summary>
+      /// <param name="eventName">Name of the event to record with any event raised.</param>
+      /// <param name="recordedEventList">Master list when raised events will be recorded to.</param>
       public EventRecorder(string eventName, IList<INotification> recordedEventList)
       {
         this.eventName = eventName;
         this.recordedEventList = recordedEventList;
       }
 
+      /// <summary>
+      /// Gets the handler to be bound to the event.
+      /// </summary>
       public Action<object, object> Handler
       {
         get
         {
-          return OnBackKeyPressed;
+          return this.DynamicEventHandler;
         }
       }
 
-      private void OnBackKeyPressed(object sender, dynamic args)
+      private void DynamicEventHandler(object sender, dynamic args)
       {
         lock (recordedEventListSynchLock)
         {

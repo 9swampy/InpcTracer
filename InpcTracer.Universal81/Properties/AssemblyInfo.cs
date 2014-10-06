@@ -1,33 +1,20 @@
-﻿using System.Resources;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Resources;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("InpcTracer.Universal81")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyVersion("0.6.0.*")]
+[assembly: AssemblyFileVersion("0.6.0")]
+[assembly: AssemblyInformationalVersion("0.6.0")]
+
+[assembly: AssemblyTitle("InpcTracer")]
+[assembly: AssemblyDescription("A fluent interface for unit testing INotifyPropertyChanged events")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("InpcTracer.Universal81")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCompany("InpcTracer contributors")]
+[assembly: AssemblyProduct("InpcTracer")]
+[assembly: AssemblyCopyright("Copyright (c) 9swampy, Inpc contributors")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("en")]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: NeutralResourcesLanguage("en-GB")]
 
 [assembly: InternalsVisibleTo("InpcTracer.Universal81.NTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

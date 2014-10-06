@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>InpcTracer</id>
-    <version>0.5.0-beta</version>
+    <version>0.6.0-beta</version>
     <title>InpcTracer</title>
     <authors>InpcTracer contributors</authors>
     <owners>9swampy</owners>
@@ -13,7 +13,8 @@
     <description>A fluent interface for unit testing INotifyPropertyChanged events</description>
     <releaseNotes>
       Beta release.
-      - Change Notified to Raised.
+      - Adding Universal81 target. 
+      - Recommended beta upgrade from 0.0.3 which really should have been a beta too...
     </releaseNotes>
     <copyright>Copyright (c) 9swampy, InpcTracer contributors</copyright>
     <tags>INPC INotifyPropertyChanged async Event fluent ViewModel unit testing tests MVVM TDD</tags>
@@ -26,5 +27,7 @@
     <file src="InpcTracer.Net4\Bin\Release\InpcTracer.xml" target="lib\net40" />
     <file src="InpcTracer\Bin\Release\InpcTracer.dll" target="lib\net45" />
     <file src="InpcTracer\Bin\Release\InpcTracer.xml" target="lib\net45" />
+    <file src="InpcTracer.Universal81\Bin\Release\InpcTracer.dll" target="lib\portable-win81+wpa81" />
+    <file src="InpcTracer.Universal81\Bin\Release\InpcTracer.xml" target="lib\portable-win81+wpa81" />  
   </files>
 </package>
