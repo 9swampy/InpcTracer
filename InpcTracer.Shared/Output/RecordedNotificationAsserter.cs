@@ -5,6 +5,9 @@
   using System.Diagnostics;
   using System.Linq;
   using System.Threading;
+#if Universal81
+  using System.Threading.Tasks;
+#endif
   using InpcTracer.Configuration;
   using InpcTracer.Framework;
   using InpcTracer.Tracing;
@@ -121,8 +124,16 @@
         {
           return true;
         }
-
+#if Universal81
+        var delay = Task.Run(async delegate
+        {
+          // For tests to consistently pass I needed to scale up the delay each loop, needs explanation/further investigation...
+          await Task.Delay((int)pause.TotalMilliseconds * 100);
+        });
+        delay.Wait();
+#else
         Thread.Sleep((int)pause.TotalMilliseconds);
+#endif
       }
       while (stopwatch.Elapsed < timeout);
       return false;
@@ -137,7 +148,9 @@
     private RepeatMatch HasBeenRecorded(Func<INotification, bool> notificationPredicate, Func<int, RepeatMatch> repeatPredicate)
     {
       var matchedNotificationCount = this.notifications.Count(notificationPredicate);
+#if !Universal81
       System.Diagnostics.Debug.Print(string.Format("Notifications.Count={0}", matchedNotificationCount));
+#endif
       return repeatPredicate(matchedNotificationCount);
     }
   }

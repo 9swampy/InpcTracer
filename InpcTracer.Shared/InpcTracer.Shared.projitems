@@ -9,13 +9,37 @@
     <Import_RootNamespace>InpcTracer</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\AssertConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IAssertConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IHideObjectMembers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IOrderedAssertConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IRepeatSpecification.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\OrderedAssertConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ExpectationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\Guard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InpcTracer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Notified.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\DefaultOutputWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\INotificationFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\IOutputWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\IRecordedNotificationAsserter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\NotificationFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\NotificationWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\OutputWriterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\RecordedNotificationAsserter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatchType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Output\RepeatMatchExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\StringBuilderOutputWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Output\TimeoutExtendedBoolResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\ExpressionValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\IExpressionValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tracing\IMonitoredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\INotification.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tracing\MonitoredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\Notification.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\NotificationComparer.cs" />
   </ItemGroup>
 </Project>

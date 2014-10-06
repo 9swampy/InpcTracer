@@ -13,8 +13,9 @@
   /// <typeparam name="T">Type of the monitored object.</typeparam>
   public class EventMonitor<T>
   {
+#if !Universal81
     private const BindingFlags RelevantBindingFlags = BindingFlags.FlattenHierarchy | BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
+#endif
     private static volatile object recordedEventListSynchLock = new object();
     private readonly IList<INotification> recordedEventList = new List<INotification>();
 
@@ -59,7 +60,11 @@
     /// <returns>Assert configuration for the specified event.</returns>
     public IAssertConfiguration Event(string eventName, int timeout)
     {
+#if Universal81
+      if (this.monitoredObject.GetType().GetRuntimeEvents().Any(o => string.Equals(o.Name, eventName, StringComparison.OrdinalIgnoreCase)))
+#else
       if (this.monitoredObject.GetType().GetEvents(RelevantBindingFlags).Any(o => string.Equals(o.Name, eventName, StringComparison.OrdinalIgnoreCase)))
+#endif
       {
         return new AssertConfiguration(this.recordedEventList, eventName, timeout);
       }
@@ -69,6 +74,48 @@
       }
     }
 
+#if Universal81
+    private void Attach()
+    {
+      if (this.monitoredObject != null)
+      {
+        foreach (var eventInfo in this.monitoredObject.GetType().GetRuntimeEvents())
+        {
+          EventRecorder eventRecorder = new EventRecorder(eventInfo.Name, this.recordedEventList);
+          Delegate handlerDelegate = eventRecorder.Handler.GetMethodInfo().CreateDelegate(eventInfo.EventHandlerType, eventRecorder);
+          eventInfo.AddMethod.Invoke(this.monitoredObject, new object[] { handlerDelegate });
+        }
+      }
+    }
+
+    public class EventRecorder
+    {
+      private readonly string eventName;
+      private readonly IList<INotification> recordedEventList;
+
+      public EventRecorder(string eventName, IList<INotification> recordedEventList)
+      {
+        this.eventName = eventName;
+        this.recordedEventList = recordedEventList;
+      }
+
+      public Action<object, object> Handler
+      {
+        get
+        {
+          return OnBackKeyPressed;
+        }
+      }
+
+      private void OnBackKeyPressed(object sender, dynamic args)
+      {
+        lock (recordedEventListSynchLock)
+        {
+          this.recordedEventList.Add(new MonitoredEvent(this.eventName, (EventArgs)args));
+        }
+      }
+    }
+#else
     /// <summary>
     /// Convert the original delegate to the required type.
     /// </summary>
@@ -103,5 +150,6 @@
         }
       }
     }
+#endif
   }
 }

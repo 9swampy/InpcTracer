@@ -1,14 +1,13 @@
-﻿namespace InpcTracer.Tests
+﻿namespace InpcTracer.NTests
 {
   using System;
   using System.ComponentModel;
   using FakeItEasy;
   using FluentAssertions;
-  using InpcTracer.Configuration;
   using InpcTracer.Tracing;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-  [TestClass]
+  using NUnit.Framework;
+  
+  [TestFixture]
   public class GivenAnIncorrectlyWiredTarget
   {
     private static readonly IExampleNotifyPropertyChanged target;
@@ -24,20 +23,20 @@
                 });
     }
 
-    [TestInitialize]
+    [SetUp]
     public void TestInitialize()
     {
       tracer = new InpcTracer.InpcTracer<IExampleNotifyPropertyChanged>(target, new ExpressionValidator());
     }
 
-    [TestMethod]
+    [Test]
     public void WhenNoPropertyChangedThenHasRecordedEventShouldRaiseAnError()
     {
       Action a = () => tracer.PropertyChanged(() => target.PropertyA).MustHaveOccurred();
       a.ShouldThrow<InpcTracer.Framework.ExpectationException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenIncorrectlyWiredPropertyChangedThenHasRecordedEventShouldRaiseAnError()
     {
       target.PropertyB = true;
@@ -46,7 +45,7 @@
       a.ShouldThrow<InpcTracer.Framework.ExpectationException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenOtherPropertyChangedThenFirstRecordedEventShouldThrow()
     {
       target.PropertyA = true;
@@ -55,7 +54,7 @@
       a.ShouldThrow<ArgumentException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenIncorrectlyWiredPropertyChangedThenFirstRecordedEventShouldThrow()
     {
       target.PropertyB = true;
@@ -64,7 +63,7 @@
       a.ShouldThrow<ArgumentException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenSinglePropertyChangedThenSubsequentThenRecordedEventShouldThrow()
     {
       target.PropertyA = true;
@@ -76,7 +75,7 @@
       b.ShouldThrow<ArgumentException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenDoublePropertiesChangedThenSubsequentThenRecordedEventShouldThrowAsIncorrectlyWired()
     {
       target.PropertyA = true;
@@ -89,7 +88,7 @@
       b.ShouldThrow<ArgumentException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenIncorrectlyWiredPropertyChangedThenHasNotRecordedEventShouldNotThrow()
     {
       target.PropertyB = true;

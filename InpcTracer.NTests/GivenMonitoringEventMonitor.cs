@@ -1,11 +1,10 @@
-﻿namespace InpcTracer.Tests
+﻿namespace InpcTracer.NTests
 {
   using System.ComponentModel;
   using FakeItEasy;
-  using InpcTracer.Configuration;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-  [TestClass]
+  using NUnit.Framework;
+  
+  [TestFixture]
   public class GivenMonitoringEventMonitor
   {
     [Fake]
@@ -13,7 +12,7 @@
 
     private InpcTracer.EventMonitor<INotifyPropertyChanged> eventMonitor;
 
-    [TestInitialize]
+    [SetUp]
     public void TestInitialise()
     {
       Fake.InitializeFixture(this);
@@ -21,14 +20,14 @@
       this.eventMonitor = new EventMonitor<INotifyPropertyChanged>(this.target);
     }
 
-    [TestMethod]
+    [Test]
     public void WhenEventRaisedOnceThenItShouldBeRecordedOnce()
     {
       this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;
       this.eventMonitor.Event("PropertyChanged").MustHaveBeen(Raised.Exactly.Once);
     }
 
-    [TestMethod]
+    [Test]
     public void WhenEventRaisedTwiceThenItShouldBeRecordedTwice()
     {
       this.target.PropertyChanged += Raise.With<PropertyChangedEventArgs>(new PropertyChangedEventArgs("Hello")).Now;

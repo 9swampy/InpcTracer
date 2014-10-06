@@ -1,13 +1,13 @@
-﻿namespace InpcTracer.Tests
+﻿namespace InpcTracer.NTests
 {
   using System;
   using FluentAssertions;
   using InpcTracer.Configuration;
   using InpcTracer.Framework;
   using InpcTracer.Tracing;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-  [TestClass]
+  using NUnit.Framework;
+ 
+  [TestFixture]
   public class GivenACorrectlyWiredTarget
   {
     private static readonly IExampleNotifyPropertyChanged Target;
@@ -18,20 +18,20 @@
       Target = ExampleTargetProvider.ACorrectlyWiredTarget();
     }
 
-    [TestInitialize]
+    [SetUp]
     public void TestInitialize()
     {
       tracer = new InpcTracer.InpcTracer<IExampleNotifyPropertyChanged>(Target, new ExpressionValidator());
     }
 
-    [TestMethod]
+    [Test]
     public void WhenNoPropertyChangedThenHasRecordedEventShouldRaiseAnError()
     {
       Action a = () => tracer.PropertyChanged(() => Target.PropertyA).MustHaveBeen(Raised.Exactly.Once);
       a.ShouldThrow<InpcTracer.Framework.ExpectationException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenPropertyChangedThenHasRecordedEventShouldNotRaiseAnError()
     {
       Target.PropertyA = true;
@@ -44,7 +44,7 @@
       b.ShouldNotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenPropertyChangedThenFirstRecordedEventShouldMatch()
     {
       Target.PropertyB = true;
@@ -52,7 +52,7 @@
       a.ShouldThrow<ArgumentException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenPropertyChangedThenFirstRecordedEventShouldNotThrow()
     {
       Target.PropertyB = true;
@@ -60,7 +60,7 @@
       a.ShouldNotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenSinglePropertyChangedThenSubsequentThenRecordedEventShouldThrow()
     {
       Target.PropertyA = true;
@@ -70,7 +70,7 @@
       b.ShouldThrow<ArgumentException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenDoublePropertiesChangedThenSubsequentThenRecordedEventShouldNotThrow()
     {
       Target.PropertyA = true;
@@ -81,7 +81,7 @@
       b.ShouldNotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenSinglePropertyChangedThenMustHaveHappendedTwiceShouldThrow()
     {
       Target.PropertyA = true;
@@ -92,7 +92,7 @@
       b.ShouldNotThrow();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenUnmatchedPropertiesChangedThenMustHaveHappendedTwiceShouldThrow()
     {
       Target.PropertyA = true;
@@ -104,7 +104,7 @@
       b.ShouldThrow<ExpectationException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenPropertyChangedThenHasNotRecordedEventShouldThrow()
     {
       Target.PropertyA = true;
@@ -112,7 +112,7 @@
       a.ShouldThrow<ExpectationException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenPropertyChangedThenHasNotRecordedEventShouldValidate()
     {
       Target.PropertyA = true;
@@ -120,7 +120,7 @@
       a.ShouldThrow<ExpectationException>();
     }
 
-    [TestMethod]
+    [Test]
     public void WhenCorrectlyWiredPropertyChangedThenHasNotRecordedEventShouldThrow()
     {
       Target.PropertyB = true;

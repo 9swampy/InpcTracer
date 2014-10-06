@@ -61,7 +61,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExampleTargetProvider.cs" />
     <Compile Include="Framework\GuardTests.cs" />
+    <Compile Include="GivenACorrectlyWiredTarget.cs" />
+    <Compile Include="GivenAnIncorrectlyWiredTarget.cs" />
+    <Compile Include="GivenEventMonitor.cs" />
+    <Compile Include="GivenEventMonitorAndAsyncEvent.cs" />
+    <Compile Include="GivenMonitoringEventMonitor.cs" />
+    <Compile Include="IExampleNotifyPropertyChanged.cs" />
     <Compile Include="Tracing\EventMonitorTests.cs" />
     <Compile Include="Tracing\ExpressionValidatorTests.cs" />
     <Compile Include="TestCases.cs" />

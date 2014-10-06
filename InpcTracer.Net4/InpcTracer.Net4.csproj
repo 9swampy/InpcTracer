@@ -43,78 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\InpcTracer\Configuration\AssertConfiguration.cs">
-      <Link>Configuration\AssertConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Configuration\IAssertConfiguration.cs">
-      <Link>Configuration\IAssertConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Configuration\IHideObjectMembers.cs">
-      <Link>Configuration\IHideObjectMembers.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Configuration\IOrderedAssertConfiguration.cs">
-      <Link>Configuration\IOrderedAssertConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Configuration\IRepeatSpecification.cs">
-      <Link>Configuration\IRepeatSpecification.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Configuration\OrderedAssertConfiguration.cs">
-      <Link>Configuration\OrderedAssertConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Framework\ExpectationException.cs">
-      <Link>Framework\ExpectationException.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Framework\Guard.cs">
-      <Link>Framework\Guard.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Framework\StringExtensions.cs">
-      <Link>Framework\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\DefaultOutputWriter.cs">
-      <Link>Output\DefaultOutputWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\INotificationFormatter.cs">
-      <Link>Output\INotificationFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\IOutputWriter.cs">
-      <Link>Output\IOutputWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\IRecordedNotificationAsserter.cs">
-      <Link>Output\IRecordedNotificationAsserter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\NotificationFormatter.cs">
-      <Link>Output\NotificationFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\NotificationWriter.cs">
-      <Link>Output\NotificationWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\OutputWriterExtensions.cs">
-      <Link>Output\OutputWriterExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\RecordedNotificationAsserter.cs">
-      <Link>Output\RecordedNotificationAsserter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\StringBuilderOutputWriter.cs">
-      <Link>Output\StringBuilderOutputWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Output\TimeoutExtendedBoolResult.cs">
-      <Link>Output\TimeoutExtendedBoolResult.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Tracing\ExpressionValidator.cs">
-      <Link>Tracing\ExpressionValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Tracing\IExpressionValidator.cs">
-      <Link>Tracing\IExpressionValidator.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Tracing\INotification.cs">
-      <Link>Tracing\INotification.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Tracing\Notification.cs">
-      <Link>Tracing\Notification.cs</Link>
-    </Compile>
-    <Compile Include="..\InpcTracer\Tracing\NotificationComparer.cs">
-      <Link>Tracing\NotificationComparer.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +58,12 @@
       <Link>PrimS.snk</Link>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+    <Folder Include="Framework\" />
+    <Folder Include="Output\" />
+    <Folder Include="Tracing\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="..\InpcTracer.Shared\InpcTracer.Shared.projitems" Label="Shared" Condition="Exists('..\InpcTracer.Shared\InpcTracer.Shared.projitems')" />

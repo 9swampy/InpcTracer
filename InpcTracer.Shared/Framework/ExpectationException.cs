@@ -6,7 +6,9 @@
   /// <summary>
   /// An exception thrown when an expectation is not met (when asserting on notifications).
   /// </summary>
+#if !Universal81
   [Serializable]
+#endif
   public class ExpectationException
   : Exception
   {
@@ -21,7 +23,8 @@
     /// Initialises a new instance of the <see cref="ExpectationException"/> class.
     /// </summary>
     /// <param name="message">The message.</param>
-    public ExpectationException(string message) : base(message)
+    public ExpectationException(string message)
+      : base(message)
     {
     }
 
@@ -30,11 +33,12 @@
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="innerException">The inner exception.</param>
-    public ExpectationException(string message, Exception innerException) : base(message, innerException)
+    public ExpectationException(string message, Exception innerException)
+      : base(message, innerException)
     {
     }
 
-    #if !SILVERLIGHT
+#if !SILVERLIGHT && !Universal81
     /// <summary>
     /// Initialises a new instance of the <see cref="ExpectationException"/> class.
     /// </summary>
@@ -46,9 +50,10 @@
     /// <exception cref="T:System.Runtime.Serialization.SerializationException">
     /// The class name is null or <see cref="P:System.Exception.HResult"/> is zero (0).
     /// </exception>
-    protected ExpectationException(SerializationInfo info, StreamingContext context) : base(info, context)
+    protected ExpectationException(SerializationInfo info, StreamingContext context)
+      : base(info, context)
     {
     }
-    #endif
+#endif
   }
 }

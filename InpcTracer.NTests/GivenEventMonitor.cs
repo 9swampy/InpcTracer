@@ -1,32 +1,32 @@
-﻿namespace InpcTracer.Tests
+﻿namespace InpcTracer.NTests
 {
   using System;
   using System.Collections.ObjectModel;
   using FluentAssertions;
-  using InpcTracer.Configuration;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using NUnit.Framework;
 
+  [TestFixture]
   public class GivenEventMonitor
   {
     private static ObservableCollection<int> observableTarget;
     private static ReadOnlyObservableCollection<int> target;
         
-    public static void OuterClassInitialize(TestContext context)
+    public static void OuterClassInitialize()
     {
       observableTarget = new ObservableCollection<int>();
       target = new ReadOnlyObservableCollection<int>(observableTarget);
     }
 
-    [TestClass]
+    [TestFixture]
     public class OfObservableCollection
     {
-      [ClassInitialize]
-      public static void ClassInitialize(TestContext context)
+      [TestFixtureSetUp]
+      public void ClassInitialize()
       {
-        OuterClassInitialize(context);
+        OuterClassInitialize();
       }
 
-      [TestMethod]
+      [Test]
       public void Test()
       {
         EventMonitor<ObservableCollection<int>> sut = new EventMonitor<ObservableCollection<int>>(observableTarget);
@@ -35,26 +35,26 @@
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class OfReadOnlyObservableCollectionDecoratedClass
     {
       private static EventMonitor<ReadOnlyObservableCollection<int>> sut;
 
-      [ClassInitialize]
-      public static void ClassInitialize(TestContext context)
+      [TestFixtureSetUp]
+      public void ClassInitialize()
       {
-        OuterClassInitialize(context);
+        OuterClassInitialize();
         sut = new EventMonitor<ReadOnlyObservableCollection<int>>(target);
       }
 
-      [TestMethod]
+      [Test]
       public void HiddenEventsShouldBeMonitored()
       {
         observableTarget.Add(1);
         sut.Event("CollectionChanged").MustHaveBeen(Raised.Exactly.Once);
       }
 
-      [TestMethod]
+      [Test]
       public void DerivedEventsShouldBeRecognised()
       {
         Action act = () => sut.Event("CollectionChanged");
@@ -62,7 +62,7 @@
         act.ShouldNotThrow<System.ArgumentException>();
       }
 
-      [TestMethod]
+      [Test]
       public void EventsShouldBeRecognisedRegardlessOfCase()
       {
         Action act = () => sut.Event("collectionChanged");

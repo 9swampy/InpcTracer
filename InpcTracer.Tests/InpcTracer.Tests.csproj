@@ -60,17 +60,12 @@
     <Compile Include="..\InpcTracer.NTests\TestHelpers\Record.cs">
       <Link>TestHelpers\Record.cs</Link>
     </Compile>
-    <Compile Include="..\InpcTracer\Framework\Guard.cs">
+    <Compile Include="..\InpcTracer.Shared\Framework\Guard.cs">
       <Link>TestHelpers\Guard.cs</Link>
     </Compile>
-    <Compile Include="GivenEventMonitorAndAsyncEvent.cs" />
-    <Compile Include="GivenMonitoringEventMonitor.cs" />
     <Compile Include="ExampleTargetProvider.cs" />
-    <Compile Include="GivenAnIncorrectlyWiredTarget.cs" />
     <Compile Include="GivenAnExpressionValidator.cs" />
-    <Compile Include="GivenEventMonitor.cs" />
     <Compile Include="IExampleNotifyPropertyChanged.cs" />
-    <Compile Include="GivenACorrectlyWiredTarget.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sample.cs" />

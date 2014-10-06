@@ -24,7 +24,11 @@ namespace InpcTracer.Tracing
       }
 
       var result = expression.Body as MemberExpression;
+#if Universal81
+      if (result == null)
+#else
       if (result == null || result.Member.MemberType != System.Reflection.MemberTypes.Property)
+#endif
       {
         throw new ArgumentException("The expression must be a property");
       }
@@ -46,7 +50,11 @@ namespace InpcTracer.Tracing
       }
 
       var result = expression.Body as MemberExpression;
+#if Universal81
+      if (result == null)
+#else
       if (result == null || result.Member.MemberType != System.Reflection.MemberTypes.Event)
+#endif
       {
         throw new ArgumentException("The expression must be an event");
       }
